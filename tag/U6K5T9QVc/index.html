@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Android获取正在运行的应用信息 | Rain</title>
+<title>Android | Rain</title>
 <meta name="description" content="隔壁超市薯片半价">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -78,63 +78,74 @@
 
 
       <div class="content-container">
-        <div class="post-detail">
-          
-          <h2 class="post-title">Android获取正在运行的应用信息</h2>
-          <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-11-24</span>
-            
-              <span>
-                <i class="icon-pricetags-outline"></i>
-                
-                  <a href="https://elianworld.github.io/tag/U6K5T9QVc/">
-                    Android
-                    
-                  </a>
-                
-              </span>
-            
-          </div>
-          <div class="post-content">
-            <hr>
-<p>API 26之前使用getRunningServices获取当前系统中正在运行的服务，参考代码：<br>
-<code>getSystemService(Context.ACTIVITY_SERVICE)).getRunningServices(Integer.MAX_VALUE)</code></p>
-<hr>
-<p>API 26之后，对系统服务的使用进行了限制，如果还用以上方法，仅能获取到应用本身正在运行的服务，无法获取到系统其它应用的信息，推荐使用以下方法：</p>
-<pre><code>        PackageManager localPackageManager = getPackageManager();
-		List localList = localPackageManager.getInstalledPackages(PackageManager.GET_PERMISSIONS);
 
-		for (int i = 0; i &lt; localList.size(); i++) {
-			PackageInfo localPackageInfo1 = (PackageInfo) localList.get(i);
-			String str1 = localPackageInfo1.packageName.split(&quot;:&quot;)[0];
-			if (((ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)) {
-				Log.e(TAG,str1);
-			}
-		}
-</code></pre>
-<p>其中</p>
-<ul>
-<li>
-<p><code>(ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0</code>表示剔除其中获取到的系统服务</p>
-</li>
-<li>
-<p><code>(ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示从获取的服务列表中剔除系统更新服务</p>
-</li>
-<li>
-<p><code>(ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示剔除其中已经停止的应用</p>
-</li>
-</ul>
-<p>其他剩余的就是正在运行中的非系统服务应用信息了。</p>
-<hr>
-<p>在实际运行过程中，可以发现获取到的list比真实运行中的应用要多，实际获取到的除了正在运行中的应用信息外，还有桌面组件、状态栏组件等应用信息，这是因为这些组件如果被用户添加到桌面，系统就认为组件所在应用的状态不是STOPPED，按照上文的过滤条件，自然被程序获取到了。</p>
-
-          </div>
+        <div class="current-tag-container">
+          <h2 class="title">
+            <i class="icon icon-pricetags-outline"></i> Android
+          </h2> 
         </div>
 
         
+<section class="post-item">
+    <div class="content">
+      <a href="https://elianworld.github.io/post/hBRKwWDB5/">
+        <h2 class="post-title">Android内存管理机制</h2>
+      </a>
+      <div class="post-abstract">
+        
       </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-11-25</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://elianworld.github.io/tag/U6K5T9QVc/">
+                Android
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+  </section>
 
-      
+<section class="post-item">
+    <div class="content">
+      <a href="https://elianworld.github.io/post/VP7LQnWWf/">
+        <h2 class="post-title">Android获取正在运行的应用信息</h2>
+      </a>
+      <div class="post-abstract">
+        
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-11-24</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="https://elianworld.github.io/tag/U6K5T9QVc/">
+                Android
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+  </section>
+
+
+<div class="pagination-container">
+  
+  
+</div>
+
+
+      </div>
 
       <div class="site-footer">
   <div class="slogan">隔壁超市薯片半价</div>
