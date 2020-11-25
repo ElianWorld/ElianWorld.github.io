@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2020-11-24T07:01:45.815Z</updated>
+    <updated>2020-11-25T02:24:10.600Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -16,7 +16,31 @@
         <link href="https://elianworld.github.io/post/VP7LQnWWf/">
         </link>
         <updated>2020-11-24T07:01:19.000Z</updated>
-        <content type="html"><![CDATA[<p>暂存</p>
+        <content type="html"><![CDATA[<hr>
+<h4 id="api-26之前使用getrunningservices获取当前系统中正在运行的服务参考代码">API 26之前使用getRunningServices获取当前系统中正在运行的服务，参考代码：</h4>
+<p><code>getSystemService(Context.ACTIVITY_SERVICE)).getRunningServices(Integer.MAX_VALUE)</code></p>
+<hr>
+<h4 id="api-26之后对系统服务的使用进行了限制如果还用以上方法仅能获取到应用本身正在运行的服务无法获取到系统其它应用的信息推荐使用以下方法">API 26之后，对系统服务的使用进行了限制，如果还用以上方法，仅能获取到应用本身正在运行的服务，无法获取到系统其它应用的信息，推荐使用以下方法：</h4>
+<pre><code>        PackageManager localPackageManager = getPackageManager();
+		List localList = localPackageManager.getInstalledPackages(PackageManager.GET_PERMISSIONS);
+
+		for (int i = 0; i &lt; localList.size(); i++) {
+			PackageInfo localPackageInfo1 = (PackageInfo) localList.get(i);
+			String str1 = localPackageInfo1.packageName.split(&quot;:&quot;)[0];
+			if (((ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)) {
+				Log.e(TAG,str1);
+			}
+		}
+</code></pre>
+<h4 id="其中">其中</h4>
+<ul>
+<li><code>(ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0</code>表示剔除其中获取到的系统服务</li>
+<li><code>(ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示从获取的服务列表中剔除系统更新服务</li>
+<li><code>(ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示剔除其中已经停止的应用</li>
+</ul>
+<h4 id="其他剩余的就是正在运行中的非系统服务应用信息了">其他剩余的就是正在运行中的非系统服务应用信息了。</h4>
+<hr>
+<h4 id="在实际运行过程中可以发现获取到的list比真实运行中的应用要多实际获取到的除了正在运行中的应用信息外还有桌面组件-状态栏组件等应用信息这是因为这些组件如果被用户添加到桌面系统就认为组件所在应用的状态不是stopped按照上文的过滤条件自然被程序获取到了">在实际运行过程中，可以发现获取到的list比真实运行中的应用要多，实际获取到的除了正在运行中的应用信息外，还有桌面组件、状态栏组件等应用信息，这是因为这些组件如果被用户添加到桌面，系统就认为组件所在应用的状态不是STOPPED，按照上文的过滤条件，自然被程序获取到了。</h4>
 ]]></content>
     </entry>
 </feed>
