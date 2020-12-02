@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2020-12-02T03:30:58.982Z</updated>
+    <updated>2020-12-02T03:42:09.098Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -21,8 +21,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Android内存管理机制]]></title>
-        <id>https://elianworld.github.io/post/_nDx3OMQo/</id>
-        <link href="https://elianworld.github.io/post/_nDx3OMQo/">
+        <id>https://elianworld.github.io/post/androidcacheuse/</id>
+        <link href="https://elianworld.github.io/post/androidcacheuse/">
         </link>
         <updated>2020-12-02T02:39:16.000Z</updated>
         <content type="html"><![CDATA[<h4 id="一-综述">一、综述</h4>
