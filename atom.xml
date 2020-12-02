@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2020-12-02T03:25:04.204Z</updated>
+    <updated>2020-12-02T03:27:37.898Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -24,7 +24,7 @@
 </ul>
 <p>按照这种原理，对于返回到后台的应用，不需要直接从后台程序中删除，可以防止删除后，重新启动初始化导致更多的内存占用和耗电。</p>
 <h4 id="二-内存分配">二、内存分配</h4>
-<p>Android 平台在运行时不会浪费可用的内存。它会一直尝试利用所有可用内存。系统会在应用关闭后将其保留在内存中，以便用户快速切回到这些应用。因此，通常情况下，Android 设备在运行时几乎没有可用的内存。<br>
+<p>Android系统会在应用关闭后将其保留在内存中，以便用户快速切回到这些应用。因此，通常情况下，Android 设备在运行时几乎没有可用的内存。<br>
 系统有两种内存不足时，回收内存的机制：内核交换守护进程（kswapd）和低内存终止守护进程（LMK）。<br>
 通常情况下，系统优先适用内核交换守护进程来回收内存，当可用内存过小（低于下限）激活守护进程，可用内存充足（高于上限），守护进程停止回收内存。<br>
 内核交换守护进程通过删除内存中未经修改的页面或者将已修改的页面回写到存储器来回收内存。<br>
