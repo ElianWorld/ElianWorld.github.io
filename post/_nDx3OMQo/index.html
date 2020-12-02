@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Android内存管理机制 | Rain</title>
+<meta name="description" content="隔壁超市薯片半价">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://elianworld.github.io//favicon.ico?v=1606879397077">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://elianworld.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://elianworld.github.io/">
+        <img class="avatar" src="https://elianworld.github.io//images/avatar.png?v=1606879397077" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://elianworld.github.io/">
+        <h1 class="site-title">Rain</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://elianworld.github.io/post/aboutme" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Android内存管理机制</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-12-02</span>
+            
+          </div>
+          <div class="post-content">
+            <h4 id="一-综述">一、综述</h4>
+<p>按照官网介绍，Android是使用分页和内存映射管理内存，按照内存映射的原理，应用修改的任何内存，都会常驻在RAM中， 应用释放内存的方法有两种：</p>
+<ul>
+<li>释放对象引用，被垃圾回收器回收内存</li>
+<li>系统为其他应用分配内存时，按照一定的管理机制，将其从RAM中换出</li>
+</ul>
+<p>按照这种原理，对于返回到后台的应用，不需要直接从后台程序中删除，可以防止删除后，重新启动初始化导致更多的内存占用和耗电。</p>
+<h4 id="二-内存分配">二、内存分配</h4>
+<p>Android 平台在运行时不会浪费可用的内存。它会一直尝试利用所有可用内存。系统会在应用关闭后将其保留在内存中，以便用户快速切回到这些应用。因此，通常情况下，Android 设备在运行时几乎没有可用的内存。<br>
+系统有两种内存不足时，回收内存的机制：内核交换守护进程（kswapd）和低内存终止守护进程（LMK）。<br>
+通常情况下，系统优先适用内核交换守护进程来回收内存，当可用内存过小（低于下限）激活守护进程，可用内存充足（高于上限），守护进程停止回收内存。<br>
+内核交换守护进程通过删除内存中未经修改的页面或者将已修改的页面回写到存储器来回收内存。<br>
+当kswapd不足以处理内存不足的情况时，系统优先减少可用内存的分配量，如果可用内存还不足，则启动LMK终止内存中的进程来回收内存。LMK按照一定的优先级对进程进行回收。</p>
+<h5 id="1-低内存终止守护进程lmk优先级">1、低内存终止守护进程（LMK）优先级</h5>
+<ul>
+<li>
+<p>后台应用：之前运行过且当前不处于活动状态的应用。LMK 将首先从具有最高 oom_adj_score 的应用开始终止后台应用。</p>
+</li>
+<li>
+<p>上一个应用：最近用过的后台应用。上一个应用比后台应用具有更高的优先级（得分更低），因为相比某个后台应用，用户更有可能切换到上一个应用。</p>
+</li>
+<li>
+<p>主屏幕应用：这是启动器应用。终止该应用会使壁纸消失。</p>
+</li>
+<li>
+<p>服务：服务由应用启动，可能包括同步或上传到云端。</p>
+</li>
+<li>
+<p>可觉察的应用：用户可通过某种方式察觉到的非前台应用，例如运行一个显示小界面的搜索进程或听音乐。</p>
+</li>
+<li>
+<p>前台应用：当前正在使用的应用。终止前台应用看起来就像是应用崩溃了，可能会向用户提示设备出了问题。</p>
+</li>
+<li>
+<p>持久性（服务）：这些是设备的核心服务，例如电话和 WLAN。</p>
+</li>
+<li>
+<p>系统：系统进程。这些进程被终止后，手机可能看起来即将重新启动。</p>
+</li>
+<li>
+<p>原生：系统使用的极低级别的进程（例如，kswapd）</p>
+</li>
+</ul>
+<hr>
+<p><strong>特别注意：系统设备制造商可以修改LMK回收进程的机制，这会导致一些不同厂商之间的兼容性问题。</strong></p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://elianworld.github.io/post/l8rYtKTpC/">
+              <h3 class="post-title">
+                下一篇：Android-AppWidget自定义更新
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">隔壁超市薯片半价</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/ElianWorld" target="_blank">Rain</a> | <a class="rss" href="https://elianworld.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
