@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2020-12-02T03:27:37.898Z</updated>
+    <updated>2020-12-02T03:30:58.982Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -10,6 +10,15 @@
     <logo>https://elianworld.github.io/images/avatar.png</logo>
     <icon>https://elianworld.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rain</rights>
+    <entry>
+        <title type="html"><![CDATA[Android系统启动流程]]></title>
+        <id>https://elianworld.github.io/post/vfUOk3Sip/</id>
+        <link href="https://elianworld.github.io/post/vfUOk3Sip/">
+        </link>
+        <updated>2020-12-02T03:29:56.000Z</updated>
+        <content type="html"><![CDATA[<p>123</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Android内存管理机制]]></title>
         <id>https://elianworld.github.io/post/_nDx3OMQo/</id>
