@@ -1,9 +1,11 @@
+
+<!DOCTYPE html>
 <html>
   <head>
     
 <meta charset="utf-8" >
 
-<title>Rain</title>
+<title>Android-AppWidget为不同控件设置不同的点击响应 | Rain</title>
 <meta name="description" content="隔壁超市薯片半价">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -75,17 +77,36 @@
 </transition>
 
 
-        <div class="content-container">
+      <div class="content-container">
+        <div class="post-detail">
           
-          <div class="tags-container">
-            
-              <a class="tag" href="https://elianworld.github.io/tag/U6K5T9QVc/">Android</a>
+          <h2 class="post-title">Android-AppWidget为不同控件设置不同的点击响应</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-11-30</span>
             
           </div>
+          <div class="post-content">
+            <p>获取PendingIntent实例：<br>
+<code>PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);</code><br>
+当第四个参数设置为PendingIntent.FLAG_UPDATE_CURRENT时，可以为不同控件设置不同的点击响应，但是requestCode需要设置为不同的值，否则，实例会被后面设置的相同的requestCode覆盖。</p>
 
+          </div>
         </div>
 
-        <div class="site-footer">
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://elianworld.github.io/post/VP7LQnWWf/">
+              <h3 class="post-title">
+                下一篇：Android获取正在运行的应用信息
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
   <div class="slogan">隔壁超市薯片半价</div>
   <div class="social-container">
     
@@ -104,8 +125,8 @@
 </div>
 
 
-      </div>
-      <script type="application/javascript">
+    </div>
+    <script type="application/javascript">
 
 hljs.initHighlightingOnLoad()
 
@@ -121,6 +142,5 @@ var app = new Vue({
 
 
 
-    </div>
   </body>
 </html>
