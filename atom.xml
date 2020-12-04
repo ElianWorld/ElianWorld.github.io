@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2020-12-03T06:59:39.717Z</updated>
+    <updated>2020-12-04T01:03:24.111Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -12,8 +12,8 @@
     <rights>All rights reserved 2020, Rain</rights>
     <entry>
         <title type="html"><![CDATA[Android Https服务端证书校验及防代理设置]]></title>
-        <id>https://elianworld.github.io/post/_RyDkkyFX/</id>
-        <link href="https://elianworld.github.io/post/_RyDkkyFX/">
+        <id>https://elianworld.github.io/post/androidhttpsproxy/</id>
+        <link href="https://elianworld.github.io/post/androidhttpsproxy/">
         </link>
         <updated>2020-12-03T06:48:50.000Z</updated>
         <content type="html"><![CDATA[<p>设置OKHttp不使用代理：<br>
@@ -73,7 +73,7 @@ createSSLSocketFactory实现：</p>
         <link href="https://elianworld.github.io/post/vfUOk3Sip/">
         </link>
         <updated>2020-12-02T03:29:56.000Z</updated>
-        <content type="html"><![CDATA[<p>123</p>
+        <content type="html"><![CDATA[<p>12</p>
 ]]></content>
     </entry>
     <entry>
