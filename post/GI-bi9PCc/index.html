@@ -1,22 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://elianworld.github.io/</id>
-    <title>Rain</title>
-    <updated>2020-12-11T03:51:07.322Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://elianworld.github.io/"/>
-    <link rel="self" href="https://elianworld.github.io/atom.xml"/>
-    <subtitle>隔壁超市薯片半价</subtitle>
-    <logo>https://elianworld.github.io/images/avatar.png</logo>
-    <icon>https://elianworld.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Rain</rights>
-    <entry>
-        <title type="html"><![CDATA[Android 启动速度优化]]></title>
-        <id>https://elianworld.github.io/post/GI-bi9PCc/</id>
-        <link href="https://elianworld.github.io/post/GI-bi9PCc/">
-        </link>
-        <updated>2020-12-11T03:46:52.000Z</updated>
-        <content type="html"><![CDATA[<div class="post-body" itemprop="articleBody" style="opacity: 1; display: block; transform: translateY(0px);">
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Android 启动速度优化 | Rain</title>
+<meta name="description" content="隔壁超市薯片半价">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://elianworld.github.io//favicon.ico?v=1607658663529">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://elianworld.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://elianworld.github.io/">
+        <img class="avatar" src="https://elianworld.github.io//images/avatar.png?v=1607658663529" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://elianworld.github.io/">
+        <h1 class="site-title">Rain</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://elianworld.github.io/post/aboutme" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Android 启动速度优化</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-12-11</span>
+            
+          </div>
+          <div class="post-content">
+            <div class="post-body" itemprop="articleBody" style="opacity: 1; display: block; transform: translateY(0px);">
 <pre><code>    &lt;hr&gt;
 </code></pre>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h3 id="成为一名优秀的Android开发，需要一份完备的知识体系，在这里，让我们一起成长为自己所想的那样-。"><a href="#成为一名优秀的Android开发，需要一份完备的知识体系，在这里，让我们一起成长为自己所想的那样-。" class="headerlink" title="成为一名优秀的Android开发，需要一份完备的知识体系，在这里，让我们一起成长为自己所想的那样~。"></a>成为一名优秀的Android开发，需要一份完备的<a href="https://github.com/JsonChao/Awesome-Android-Exercise" target="_blank" rel="external">知识体系</a>，在这里，让我们一起成长为自己所想的那样~。</h3><h2 id="一、启动优化的意义"><a href="#一、启动优化的意义" class="headerlink" title="一、启动优化的意义"></a>一、启动优化的意义</h2><p>如果我们去一家餐厅吃饭，在点餐的时候等了半天都没有服务人员过来，可能就没有耐心等待直接走了。</p>
@@ -987,346 +1057,58 @@ Log.i(TAG, name + &quot; cost&quot; +     (System.currentTimeMillis() - time));
 <p>17、<a href="https://github.com/AndroidAdvanceWithGeektime/Chapter07" target="_blank" rel="external">使用gradle自动化增加Trace Tag</a></p>
 <hr>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android user-agent解读及使用]]></title>
-        <id>https://elianworld.github.io/post/androiduseragent/</id>
-        <link href="https://elianworld.github.io/post/androiduseragent/">
-        </link>
-        <updated>2020-12-09T08:59:20.000Z</updated>
-        <content type="html"><![CDATA[<p>ua是用来让网络协议的对端来识别发起请求的用户代理软件的应用类型、操作系统、软件开发商以及版本号。</p>
-<hr>
-<h3 id="使用">使用</h3>
-<p>可以在ua中增加自定义的一些字段来标识特殊信息。<br>
-获取UA：</p>
-<pre><code>String str = webView.getSettings().getUserAgentString()
-</code></pre>
-<p>编辑后，重设UA：</p>
-<pre><code>webView.getSettings().setUserAgentString(str);
-</code></pre>
-<h3 id="字段解读">字段解读</h3>
-<p>User-Agent的语法如下：</p>
-<pre><code>User-Agent: &lt;product&gt; / &lt;product-version&gt; &lt;comment&gt;
-</code></pre>
-<ul>
-<li>product：产品识别码</li>
-<li>product-version：产品版本号</li>
-<li>comment：产品信息的注释</li>
-</ul>
-<p>下面一个是从移动端Chrome浏览器获取的UA信息：</p>
-<pre><code>Mozilla/5.0 (Linux; Android 10; V1832A Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.96 Mobile Safari/537.36
-</code></pre>
-<p>其中</p>
-<ul>
-<li>Mozilla/5.0是一个通用标记符号，用来表示与 Mozilla 兼容，现在市场上绝大多数浏览器都会有这个标识（爬虫除外）</li>
-<li>Linux表示浏览器所运行的原生系统平台（Windows、Mac、Linux 或 Android）</li>
-<li>Android 10表示Android系统版本号</li>
-<li>V1832A Build/QP1A.190711.020表示手机信息</li>
-<li>wv：在Android5.0（包含）以上的系统中，会新增wv字段，与之前的浏览器做区分</li>
-<li>AppleWebKit/537.36 浏览器内核及版本信息</li>
-<li>(KHTML, like Gecko) 浏览器兼容性</li>
-<li>Version/4.0 用来区分是Android版Chrome浏览器还是WebView字段，Android版Chrome浏览器不带有此字段</li>
-<li>Chrome/78.0.3904.96 Chrome版本号，Android4.4以后才添加到ua中</li>
-<li>Mobile 表示运行在手机上，以此字段区分手机、平板等，判断手机模式的正则表达式：<code>'Android' + 'Chrome/[.0-9]* Mobile'</code>，平板模式的正则表达式：<code>'Android' + 'Chrome/[.0-9]* (?!Mobile)'</code></li>
-<li>Safari/537.36表示对safari的兼容性及兼容的版本信息</li>
-</ul>
-<hr>
-<h3 id="常见浏览器的ua">常见浏览器的UA</h3>
-<div class="t-big-margin">
-<h1 class="t-big-margin font-18">PC端</h1>
-<table class="table-bordered table">
-<thead>
-<tr>
-<th style="width: 180px">浏览器</th>
-<th>User-agent</th>
-</tr>
-</thead>
-<tbody id="pcd">
-<tr><td>safari 5.1 – MAC</td><td class="copy-agent-con">Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50</td></tr><tr><td>safari 5.1 – Windows</td><td class="copy-agent-con">Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50</td></tr><tr><td>IE 9.0</td><td class="copy-agent-con">Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;</td></tr><tr><td>IE 8.0</td><td class="copy-agent-con">Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)</td></tr><tr><td>IE 7.0</td><td class="copy-agent-con">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)</td></tr><tr><td>IE 6.0</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)</td></tr><tr><td>Firefox 4.0.1 – MAC</td><td class="copy-agent-con"> Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv,2.0.1) Gecko/20100101 Firefox/4.0.1</td></tr><tr><td>Firefox 4.0.1 – Windows</td><td class="copy-agent-con">Mozilla/5.0 (Windows NT 6.1; rv,2.0.1) Gecko/20100101 Firefox/4.0.1</td></tr><tr><td>Opera 11.11 – MAC</td><td class="copy-agent-con">Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; en) Presto/2.8.131 Version/11.11</td></tr><tr><td>Opera 11.11 – Windows</td><td class="copy-agent-con">Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11</td></tr><tr><td>Chrome 17.0 – MAC</td><td class="copy-agent-con"> Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11</td></tr><tr><td>傲游（Maxthon）</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Maxthon 2.0)</td></tr><tr><td>腾讯TT</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; TencentTraveler 4.0)</td></tr><tr><td>世界之窗（The World） 2.x</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</td></tr><tr><td>世界之窗（The World） 3.x</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; The World)</td></tr><tr><td>搜狗浏览器 1.x</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; SE 2.X MetaSr 1.0; SE 2.X MetaSr 1.0; .NET CLR 2.0.50727; SE 2.X MetaSr 1.0)</td></tr><tr><td>360浏览器</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)</td></tr><tr><td>Avant</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Avant Browser)</td></tr><tr><td>Green Browser</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</td></tr></tbody>
-</table>
-<h1 class="t-big-margin font-18">移动设备端</h1>
-<table class="table-bordered table">
-<thead>
-<tr>
-<th style="width: 180px">浏览器</th>
-<th>User-agent</th>
-</tr>
-</thead>
-<tbody id="mbd">
-<tr><td>safari iOS 4.33 – iPhone</td><td class="copy-agent-con">Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</td></tr><tr><td>safari iOS 4.33 – iPod Touch</td><td class="copy-agent-con">Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</td></tr><tr><td>safari iOS 4.33 – iPad</td><td class="copy-agent-con">Mozilla/5.0 (iPad; U; CPU OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5</td></tr><tr><td>Android N1</td><td class="copy-agent-con"> Mozilla/5.0 (Linux; U; Android 2.3.7; en-us; Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</td></tr><tr><td>Android QQ浏览器 For android</td><td class="copy-agent-con"> MQQBrowser/26 Mozilla/5.0 (Linux; U; Android 2.3.7; zh-cn; MB200 Build/GRJ22; CyanogenMod-7) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</td></tr><tr><td>Android Opera Mobile</td><td class="copy-agent-con"> Opera/9.80 (Android 2.3.4; Linux; Opera Mobi/build-1107180945; U; en-GB) Presto/2.8.149 Version/11.10</td></tr><tr><td>Android Pad Moto Xoom</td><td class="copy-agent-con"> Mozilla/5.0 (Linux; U; Android 3.0; en-us; Xoom Build/HRI39) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13</td></tr><tr><td>BlackBerry</td><td class="copy-agent-con"> Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en) AppleWebKit/534.1+ (KHTML, like Gecko) Version/6.0.0.337 Mobile Safari/534.1+</td></tr><tr><td>WebOS HP Touchpad</td><td class="copy-agent-con"> Mozilla/5.0 (hp-tablet; Linux; hpwOS/3.0.0; U; en-US) AppleWebKit/534.6 (KHTML, like Gecko) wOSBrowser/233.70 Safari/534.6 TouchPad/1.0</td></tr><tr><td>Nokia N97</td><td class="copy-agent-con"> Mozilla/5.0 (SymbianOS/9.4; Series60/5.0 NokiaN97-1/20.0.019; Profile/MIDP-2.1 Configuration/CLDC-1.1) AppleWebKit/525 (KHTML, like Gecko) BrowserNG/7.1.18124</td></tr><tr><td>Windows Phone Mango</td><td class="copy-agent-con"> Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; HTC; Titan)</td></tr><tr><td>UC无</td><td class="copy-agent-con"> UCWEB7.0.2.37/28/999</td></tr><tr><td>UC标准</td><td class="copy-agent-con"> NOKIA5700/ UCWEB7.0.2.37/28/999</td></tr><tr><td>UCOpenwave</td><td class="copy-agent-con"> Openwave/ UCWEB7.0.2.37/28/999</td></tr><tr><td>UC Opera</td><td class="copy-agent-con"> Mozilla/4.0 (compatible; MSIE 6.0; ) Opera/UCWEB7.0.2.37/28/999</td></tr></tbody>
-</table>
-<h1 class="t-big-margin font-18">Android 系统下的微信</h1>
-<table class="table-bordered table">
-<thead>
-<tr>
-<th style="width: 180px">浏览器</th>
-<th>User-agent</th>
-</tr>
-</thead>
-<tbody id="wxInAndroid">
-<tr><td>小米在WIFI</td><td class="copy-agent-con">Mozilla/5.0 (Linux; Android 7.1.1; MI 6 Build/NMF26X; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/043807 Mobile Safari/537.36 MicroMessenger/6.6.1.1220(0x26060135) NetType/WIFI Language/zh_CN</td></tr><tr><td>锤子OD103型号 4G</td><td class="copy-agent-con">Mozilla/5.0 (Linux; Android 7.1.1; OD103 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043632 Safari/537.36 MicroMessenger/6.6.1.1220(0x26060135) NetType/4G Language/zh_CN</td></tr><tr><td>锤子SM919型号 WIFI</td><td class="copy-agent-con">Mozilla/5.0 (Linux; Android 6.0.1; SM919 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043632 Safari/537.36 MicroMessenger/6.6.1.1220(0x26060135) NetType/WIFI Language/zh_CN</td></tr><tr><td>VIVO X6S WIFI</td><td class="copy-agent-con">Mozilla/5.0 (Linux; Android 5.1.1; vivo X6S A Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043632 Safari/537.36 MicroMessenger/6.6.1.1220(0x26060135) NetType/WIFI Language/zh_CN</td></tr><tr><td>HUAWEI TAG-AL00 4G</td><td class="copy-agent-con">Mozilla/5.0 (Linux; Android 5.1; HUAWEI TAG-AL00 Build/HUAWEITAG-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043622 Safari/537.36 MicroMessenger/6.6.1.1220(0x26060135) NetType/4G Language/zh_CN</td></tr><tr><td>小程序</td><td class="copy-agent-con">Mozilla/5.0 (Linux; Android 7.1.1; MI 6 Build/NMF26X; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/043807 Mobile Safari/537.36 MicroMessenger/6.6.1.1220(0x26060135) NetType/4G Language/zh_CN MicroMessenger/6.6.1.1220(0x26060135) NetType/4G Language/zh_CN miniProgram</td></tr></tbody>
-</table>
-<h1 class="t-big-margin font-18">IOS IOS 系统下的微信 User
-Agent</h1>
-<table class="table-bordered table">
-<thead>
-<tr>
-<th style="width: 180px">浏览器</th>
-<th>User-agent</th>
-</tr>
-</thead>
-<tbody id="wxInIos">
-<tr><td>iphone手机OS 9_3_2版本 4G</td><td class="copy-agent-con">Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13F69 MicroMessenger/6.6.1 NetType/4G Language/zh_CN</td></tr><tr><td>iphone手机OS 11_2_2版本 4G</td><td class="copy-agent-con">Mozilla/5.0 (iPhone; CPU iPhone OS 11_2_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Mobile/15C202 MicroMessenger/6.6.1 NetType/4G Language/zh_CN</td></tr><tr><td>iphone手机OS OS 11_1_1版本 WIFI</td><td class="copy-agent-con">Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Mobile/15B150 MicroMessenger/6.6.1 NetType/WIFI Language/zh_CN</td></tr><tr><td>iphoneX WIFI</td><td class="copy-agent-con">Mozilla/5.0 (iphone x Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043632 Safari/537.36 MicroMessenger/6.6.1.1220(0x26060135) NetType/WIFI Language/zh_CN</td></tr></tbody>
-</table>
-</div>]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android一套代码打出多个APP安装包]]></title>
-        <id>https://elianworld.github.io/post/androidproductflavors/</id>
-        <link href="https://elianworld.github.io/post/androidproductflavors/">
-        </link>
-        <updated>2020-12-04T03:37:34.000Z</updated>
-        <content type="html"><![CDATA[<p>代码结构大致相同的APP，如何维护一套代码，打出不同的APP：</p>
-<p>这在Android官方叫做<a href="https://developer.android.com/studio/build/build-variants?utm_source=android-studio#product-flavors">产品变种</a></p>
-<p>具体配置应用如下：<br>
-在主工程build.gradle文件的android下，增加以下配置：</p>
-<pre><code>productFlavors {
-        APPONE {
-            applicationId &quot;com.test.appone&quot;
-            signingConfig signingConfigs.config_one
-            //代码中所需根据不同应用配置的不同参数
-            buildConfigField &quot;String&quot;, &quot;AppName&quot;, &quot;\&quot;appone\&quot;&quot;
-            //Manifest文件中所需根据不同应用配置的不同参数
-            manifestPlaceholders = [
-                    APP_NAME: &quot;appone&quot;,
-                    APP_ICON: &quot;@mipmap/ic_launcher&quot;
-            ]
 
-        }
+          </div>
+        </div>
 
-        APPTWO {
-            applicationId &quot;com.test.apptwo&quot;
-            signingConfig signingConfigs.config_two
-            //代码中所需根据不同应用配置的不同参数
-            buildConfigField &quot;String&quot;, &quot;AppName&quot;, &quot;\&quot;apptwo\&quot;&quot;
-            //Manifest文件中所需根据不同应用配置的不同参数
-            manifestPlaceholders = [
-                    APP_NAME: &quot;apptwo&quot;,
-                    APP_ICON: &quot;@mipmap/ic_launcher2&quot;
-            ]
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://elianworld.github.io/post/androiduseragent/">
+              <h3 class="post-title">
+                下一篇：Android user-agent解读及使用
+              </h3>
+            </a>
+          </div>
+          
+      </div>
 
-        }
-</code></pre>
-<p>productFlavors就是针对不同的APP变种，配置的不同的信息。</p>
-<hr>
-<p>buildConfigField字段配置的内容最终会编译到BuildConfig文件中：<br>
-<img src="https://elianworld.github.io//post-images/1607054593718.png" alt="" loading="lazy"><br>
-代码中引用方式如下：<br>
-<code>BuildConfig.AppName</code><br>
-如果没引到刚添加的buildConfigField，rebuild一下工程即可。</p>
-<hr>
-<p>manifestPlaceholders字段配置的是在Manifest文件中引用的配置:</p>
-<pre><code>android:icon=&quot;${APP_ICON}&quot;
-android:label=&quot;${APP_NAME}&quot;
-</code></pre>
-<p>特别的，可以再&quot;&quot;中进行字符串拼接，如下所示：</p>
-<pre><code>android:authorities=&quot;${package_name}.provider&quot;
-</code></pre>
-<p>配置完成后，打包的时候就可以看到四个选项了：<br>
-<img src="https://elianworld.github.io//post-images/1607055163351.png" alt="" loading="lazy"><br>
-另外，在工程内直接运行时，需要根据不同的需求，在Build Variants中选择不同的构建类型，选完后会rebuild一遍工程，重新点击运行，运行到手机上的就是对应选择后的APP了。<br>
-<img src="https://elianworld.github.io//post-images/1607055328314.png" alt="" loading="lazy"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android Https服务端证书校验及防代理设置]]></title>
-        <id>https://elianworld.github.io/post/androidhttpsproxy/</id>
-        <link href="https://elianworld.github.io/post/androidhttpsproxy/">
-        </link>
-        <updated>2020-12-03T06:48:50.000Z</updated>
-        <content type="html"><![CDATA[<p>设置OKHttp不使用代理：<br>
-<code>okHttpClientBuilder.proxy(Proxy.NO_PROXY);</code><br>
-设置SSL证书校验<br>
-<code>okHttpClientBuilder.sslSocketFactory(createSSLSocketFactory(), new MyTrustManager());</code><br>
-createSSLSocketFactory实现：</p>
-<pre><code>private static SSLSocketFactory createSSLSocketFactory() {
-        SSLSocketFactory ssfFactory = null;
+      
 
-        try {
-            SSLContext sc = SSLContext.getInstance(&quot;SSL&quot;);
-            sc.init(null, new TrustManager[]{new MyTrustManager()}, new SecureRandom());
+      <div class="site-footer">
+  <div class="slogan">隔壁超市薯片半价</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/ElianWorld" target="_blank">Rain</a> | <a class="rss" href="https://elianworld.github.io//atom.xml" target="_blank">RSS</a>
+</div>
 
-            ssfFactory = sc.getSocketFactory();
-        } catch (Exception e) {
-        }
 
-        return ssfFactory;
-    }
-</code></pre>
-<p>MyTrustManager实现X509TrustManager，重写checkServerTrusted即可：</p>
-<pre><code>    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+    </div>
+    <script type="application/javascript">
 
-        //检查所有证书
-        try {
-            TrustManagerFactory factory = TrustManagerFactory.getInstance(&quot;X509&quot;);
-            factory.init((KeyStore) null);
-            for (TrustManager trustManager : factory.getTrustManagers()) {
-                ((X509TrustManager) trustManager).checkServerTrusted(chain, authType);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        }
+hljs.initHighlightingOnLoad()
 
-        //获取网络中的证书信息
-        X509Certificate certificate = chain[0];
-        // 证书拥有者
-        String subject = certificate.getSubjectDN().getName();
-        // 证书颁发者
-        String issuer = certificate.getIssuerDN().getName();
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-         if (!ConstantManager.SUBJECT.equals(subject) || !ConstantManager.ISSUER.equals(issuer)){
-            throw new CertificateException();
-        }
-    }
-</code></pre>
-<p>具体实现需进行代码保护，并在此基础上加上应用程序的签名校验，防止去除证书校验后二次打包。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android系统启动流程]]></title>
-        <id>https://elianworld.github.io/post/vfUOk3Sip/</id>
-        <link href="https://elianworld.github.io/post/vfUOk3Sip/">
-        </link>
-        <updated>2020-12-02T03:29:56.000Z</updated>
-        <content type="html"><![CDATA[<p>12</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android内存管理机制]]></title>
-        <id>https://elianworld.github.io/post/androidcacheuse/</id>
-        <link href="https://elianworld.github.io/post/androidcacheuse/">
-        </link>
-        <updated>2020-12-02T02:39:16.000Z</updated>
-        <content type="html"><![CDATA[<h4 id="一-综述">一、综述</h4>
-<p>按照官网介绍，Android是使用分页和内存映射管理内存，按照内存映射的原理，应用修改的任何内存，都会常驻在RAM中， 应用释放内存的方法有两种：</p>
-<ul>
-<li>释放对象引用，被垃圾回收器回收内存</li>
-<li>系统为其他应用分配内存时，按照一定的管理机制，将其从RAM中换出</li>
-</ul>
-<p>按照这种原理，对于返回到后台的应用，不需要直接从后台程序中删除，可以防止删除后，重新启动初始化导致更多的内存占用和耗电。</p>
-<h4 id="二-内存分配">二、内存分配</h4>
-<p>Android系统会在应用关闭后将其保留在内存中，以便用户快速切回到这些应用。因此，通常情况下，Android 设备在运行时几乎没有可用的内存。<br>
-系统有两种内存不足时，回收内存的机制：内核交换守护进程（kswapd）和低内存终止守护进程（LMK）。<br>
-通常情况下，系统优先适用内核交换守护进程来回收内存，当可用内存过小（低于下限）激活守护进程，可用内存充足（高于上限），守护进程停止回收内存。<br>
-内核交换守护进程通过删除内存中未经修改的页面或者将已修改的页面回写到存储器来回收内存。<br>
-当kswapd不足以处理内存不足的情况时，系统优先减少可用内存的分配量，如果可用内存还不足，则启动LMK终止内存中的进程来回收内存。LMK按照一定的优先级对进程进行回收。</p>
-<h5 id="1-低内存终止守护进程lmk优先级">1、低内存终止守护进程（LMK）优先级</h5>
-<ul>
-<li>
-<p>后台应用：之前运行过且当前不处于活动状态的应用。LMK 将首先从具有最高 oom_adj_score 的应用开始终止后台应用。</p>
-</li>
-<li>
-<p>上一个应用：最近用过的后台应用。上一个应用比后台应用具有更高的优先级（得分更低），因为相比某个后台应用，用户更有可能切换到上一个应用。</p>
-</li>
-<li>
-<p>主屏幕应用：这是启动器应用。终止该应用会使壁纸消失。</p>
-</li>
-<li>
-<p>服务：服务由应用启动，可能包括同步或上传到云端。</p>
-</li>
-<li>
-<p>可觉察的应用：用户可通过某种方式察觉到的非前台应用，例如运行一个显示小界面的搜索进程或听音乐。</p>
-</li>
-<li>
-<p>前台应用：当前正在使用的应用。终止前台应用看起来就像是应用崩溃了，可能会向用户提示设备出了问题。</p>
-</li>
-<li>
-<p>持久性（服务）：这些是设备的核心服务，例如电话和 WLAN。</p>
-</li>
-<li>
-<p>系统：系统进程。这些进程被终止后，手机可能看起来即将重新启动。</p>
-</li>
-<li>
-<p>原生：系统使用的极低级别的进程（例如，kswapd）</p>
-</li>
-</ul>
-<hr>
-<p><strong>特别注意：系统设备制造商可以修改LMK回收进程的机制，这会导致一些不同厂商之间的兼容性问题。</strong></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android-AppWidget自定义更新]]></title>
-        <id>https://elianworld.github.io/post/l8rYtKTpC/</id>
-        <link href="https://elianworld.github.io/post/l8rYtKTpC/">
-        </link>
-        <updated>2020-12-02T01:19:12.000Z</updated>
-        <content type="html"><![CDATA[<h5 id="更新周期设置">更新周期设置</h5>
-<p>xml/widget-info.xml中updatePeriodMillis表示更新频率，以30分钟为更新周期，该值设置不足30分钟的整倍数时，向上取整，比如设置更新周期2分钟，则真实更新周期就是30分钟【系统为省电做的设计】</p>
-<hr>
-<p>为支持自定义的更新频率，也就是想什么时候更新就什么时候更新，需要设置updatePeriodMillis为0，然后有以下两种方式设置：</p>
-<ul>
-<li>自定义service：在WidgetProvider中的onUpdate启动service更新RemoteViews，网上有很多介绍，这里不再重复</li>
-<li>代码中使用广播按需更新：<br>
-<code>Intent intent = new Intent(this, Widget.class); intent.setAction(Widget_Action); sendBroadcast(intent);</code><br>
-在需要更新widget时，发送WidgetProvider中能接收到的广播，然后在WidgetProvider的onReceive更新RemoteViews。</li>
-</ul>
-<hr>
-<h5 id="解决更新完视图桌面组件没有更新的问题">解决更新完视图，桌面组件没有更新的问题</h5>
-<p>onReceive打日志，看到接收到广播后，更新了RemoteViews，但是桌面没有及时更新，需要将<code>appWidgetManager.updateAppWidget(appWidgetId, remoteViews)</code>修改成<code>appWidgetManager.updateAppWidget(new ComponentName(context, Widget.class), remoteViews);</code>，就可以在onReceive更新视图后，及时在桌面看到更新后的组件。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android-AppWidget为不同控件设置不同的点击响应]]></title>
-        <id>https://elianworld.github.io/post/YyN1kv1tR/</id>
-        <link href="https://elianworld.github.io/post/YyN1kv1tR/">
-        </link>
-        <updated>2020-11-30T11:13:14.000Z</updated>
-        <content type="html"><![CDATA[<p>获取PendingIntent实例：<br>
-<code>PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);</code><br>
-当第四个参数设置为PendingIntent.FLAG_UPDATE_CURRENT时，可以为不同控件设置不同的点击响应，但是requestCode需要设置为不同的值，否则，实例会被后面设置的相同的requestCode覆盖。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android获取正在运行的应用信息]]></title>
-        <id>https://elianworld.github.io/post/VP7LQnWWf/</id>
-        <link href="https://elianworld.github.io/post/VP7LQnWWf/">
-        </link>
-        <updated>2020-11-24T07:01:19.000Z</updated>
-        <content type="html"><![CDATA[<hr>
-<p>API 26之前使用getRunningServices获取当前系统中正在运行的服务，参考代码：<br>
-<code>getSystemService(Context.ACTIVITY_SERVICE)).getRunningServices(Integer.MAX_VALUE)</code></p>
-<hr>
-<p>API 26之后，对系统服务的使用进行了限制，如果还用以上方法，仅能获取到应用本身正在运行的服务，无法获取到系统其它应用的信息，推荐使用以下方法：</p>
-<pre><code>        PackageManager localPackageManager = getPackageManager();
-		List localList = localPackageManager.getInstalledPackages(PackageManager.GET_PERMISSIONS);
+</script>
 
-		for (int i = 0; i &lt; localList.size(); i++) {
-			PackageInfo localPackageInfo1 = (PackageInfo) localList.get(i);
-			String str1 = localPackageInfo1.packageName.split(&quot;:&quot;)[0];
-			if (((ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)) {
-				Log.e(TAG,str1);
-			}
-		}
-</code></pre>
-<p>其中</p>
-<ul>
-<li>
-<p><code>(ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0</code>表示剔除其中获取到的系统服务</p>
-</li>
-<li>
-<p><code>(ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示从获取的服务列表中剔除系统更新服务</p>
-</li>
-<li>
-<p><code>(ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示剔除其中已经停止的应用</p>
-</li>
-</ul>
-<p>其他剩余的就是正在运行中的非系统服务应用信息了。</p>
-<hr>
-<p>在实际运行过程中，可以发现获取到的list比真实运行中的应用要多，实际获取到的除了正在运行中的应用信息外，还有桌面组件、状态栏组件等应用信息，这是因为这些组件如果被用户添加到桌面，系统就认为组件所在应用的状态不是STOPPED，按照上文的过滤条件，自然被程序获取到了。</p>
-]]></content>
-    </entry>
-</feed>
+
+
+
+  </body>
+</html>
