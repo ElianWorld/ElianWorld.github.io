@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2020-12-11T05:25:35.450Z</updated>
+    <updated>2020-12-18T03:01:18.202Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -10,6 +10,25 @@
     <logo>https://elianworld.github.io/images/avatar.png</logo>
     <icon>https://elianworld.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rain</rights>
+    <entry>
+        <title type="html"><![CDATA[Android应用程序启动流程]]></title>
+        <id>https://elianworld.github.io/post/CwcvnCYMn/</id>
+        <link href="https://elianworld.github.io/post/CwcvnCYMn/">
+        </link>
+        <updated>2020-12-18T02:41:04.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="android系统是基于linux的运行在其上的应用程序不只是apk一种类型下面所述应用程序的启动流程特指apk类型应用程序的启动流程">Android系统是基于Linux的，运行在其上的应用程序不只是APK一种类型，下面所述应用程序的启动流程特指APK类型应用程序的启动流程。</h4>
+<hr>
+<p>APK类型应用程序在系统中有以下两种启动方式：</p>
+<ul>
+<li>在Launcher中点击应用程序图标启动。</li>
+<li>通过startActivity启动</li>
+</ul>
+<p>两种启动方式流程基本一致，最终都会调用ActivityManagerService的startActivity来完成。</p>
+<p>AMS内部调用一系列以startActivity开头的方法处理Activity启动之前的判断和准备工作<br>
+具体流程如下：<br>
+<img src="https://elianworld.github.io//post-images/1608260376437.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Android 启动速度优化]]></title>
         <id>https://elianworld.github.io/post/GI-bi9PCc/</id>

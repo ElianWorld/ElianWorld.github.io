@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Android-AppWidget为不同控件设置不同的点击响应 | Rain</title>
+<title>Android应用程序启动流程 | Rain</title>
 <meta name="description" content="隔壁超市薯片半价">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,34 +80,32 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">Android-AppWidget为不同控件设置不同的点击响应</h2>
+          <h2 class="post-title">Android应用程序启动流程</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-11-30</span>
-            
-              <span>
-                <i class="icon-pricetags-outline"></i>
-                
-                  <a href="https://elianworld.github.io/tag/U6K5T9QVc/">
-                    Android
-                    
-                  </a>
-                
-              </span>
+            <span><i class="icon-calendar-outline"></i> 2020-12-18</span>
             
           </div>
           <div class="post-content">
-            <p>获取PendingIntent实例：<br>
-<code>PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);</code><br>
-当第四个参数设置为PendingIntent.FLAG_UPDATE_CURRENT时，可以为不同控件设置不同的点击响应，但是requestCode需要设置为不同的值，否则，实例会被后面设置的相同的requestCode覆盖。</p>
+            <h4 id="android系统是基于linux的运行在其上的应用程序不只是apk一种类型下面所述应用程序的启动流程特指apk类型应用程序的启动流程">Android系统是基于Linux的，运行在其上的应用程序不只是APK一种类型，下面所述应用程序的启动流程特指APK类型应用程序的启动流程。</h4>
+<hr>
+<p>APK类型应用程序在系统中有以下两种启动方式：</p>
+<ul>
+<li>在Launcher中点击应用程序图标启动。</li>
+<li>通过startActivity启动</li>
+</ul>
+<p>两种启动方式流程基本一致，最终都会调用ActivityManagerService的startActivity来完成。</p>
+<p>AMS内部调用一系列以startActivity开头的方法处理Activity启动之前的判断和准备工作<br>
+具体流程如下：<br>
+<img src="https://elianworld.github.io//post-images/1608260376437.png" alt="" loading="lazy"></p>
 
           </div>
         </div>
 
         
           <div class="next-post">
-            <a class="purple-link" href="https://elianworld.github.io/post/VP7LQnWWf/">
+            <a class="purple-link" href="https://elianworld.github.io/post/GI-bi9PCc/">
               <h3 class="post-title">
-                下一篇：Android获取正在运行的应用信息
+                下一篇：Android 启动速度优化
               </h3>
             </a>
           </div>
