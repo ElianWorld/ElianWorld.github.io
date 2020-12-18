@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2020-12-18T03:01:18.202Z</updated>
+    <updated>2020-12-18T09:17:53.764Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -10,6 +10,216 @@
     <logo>https://elianworld.github.io/images/avatar.png</logo>
     <icon>https://elianworld.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rain</rights>
+    <entry>
+        <title type="html"><![CDATA[Android 路由策略arouter]]></title>
+        <id>https://elianworld.github.io/post/gh7GSa13m/</id>
+        <link href="https://elianworld.github.io/post/gh7GSa13m/">
+        </link>
+        <updated>2020-12-18T07:34:01.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="一-基础使用">一、基础使用</h3>
+<h5 id="1-dependencies添加arouter引用">1、dependencies添加arouter引用：</h5>
+<pre><code>implementation 'com.alibaba:arouter-api:1.3.1'
+annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+</code></pre>
+<h5 id="2-application初始化">2、Application初始化：</h5>
+<pre><code>ARouter.init(this);
+</code></pre>
+<h5 id="3-activity添加注解">3、Activity添加注解</h5>
+<pre><code>@Route(path = &quot;/world/mainpage&quot;)
+public class MainActivity extends Activity {
+}
+</code></pre>
+<p>注解一般由group和pageid组成<br>
+添加完注解后，在app/build/generated/source/apt/appname/debug/com.alibaba.android.arouter.routes下自动生成路由文件。<br>
+<img src="https://elianworld.github.io//post-images/1608278308444.png" alt="" loading="lazy"></p>
+<p>ARouter$$Group$$world中存放路由表：</p>
+<pre><code>public class ARouter$$Group$$world implements IRouteGroup {
+  @Override
+  public void loadInto(Map&lt;String, RouteMeta&gt; atlas) {
+    atlas.put(&quot;/world/mainpage&quot;, RouteMeta.build(RouteType.ACTIVITY, MainActivity.class, &quot;/world/mainpage&quot;, &quot;world&quot;, null, -1, -2147483648));
+    atlas.put(&quot;/world/setting&quot;, RouteMeta.build(RouteType.ACTIVITY, SettingActivity.class, &quot;/world/setting&quot;, &quot;world&quot;, null, -1, -2147483648));
+  }
+}
+</code></pre>
+<p>配置完成后，就可以使用以下方式跳转对应的page：</p>
+<pre><code>ARouter.getInstance().build(&quot;/world/setting&quot;).navigation(mContext, requestCode);
+</code></pre>
+<p>项目中不同的mudule间的跳转也和上述一样的方法，为方便管理，不同的module使用不同的group，可在主module中进行统一的管理。</p>
+<h3 id="二-arouter初始化分析">二、arouter初始化分析</h3>
+<p>Application中对ARouter进行初始化：</p>
+<pre><code>ARouter.init(this);
+</code></pre>
+<p>ARouter中执行<code>_ARouter.init(application);</code>对_ARouter进行初始化<br>
+_ARouter中执行<code>LogisticsCenter.init(mContext, executor);</code>对LogisticsCenter进行初始化，LogisticsCenter中保存了路由映射关系，在LogisticsCenter的init方法中：</p>
+<pre><code>    public synchronized static void init(Context context, ThreadPoolExecutor tpe) throws HandlerException {
+        mContext = context;
+        executor = tpe;
+
+        try {
+            long startInit = System.currentTimeMillis();
+            //billy.qi modified at 2017-12-06
+            //load by plugin first
+            loadRouterMap();
+            if (registerByPlugin) {
+                logger.info(TAG, &quot;Load router map by arouter-auto-register plugin.&quot;);
+            } else {
+                Set&lt;String&gt; routerMap;
+
+                // It will rebuild router map every times when debuggable.
+                if (ARouter.debuggable() || PackageUtils.isNewVersion(context)) {
+                    logger.info(TAG, &quot;Run with debug mode or new install, rebuild router map.&quot;);
+                    // These class was generate by arouter-compiler.
+                    routerMap = ClassUtils.getFileNameByPackageName(mContext, ROUTE_ROOT_PAKCAGE);
+                    if (!routerMap.isEmpty()) {
+                        context.getSharedPreferences(AROUTER_SP_CACHE_KEY, Context.MODE_PRIVATE).edit().putStringSet(AROUTER_SP_KEY_MAP, routerMap).apply();
+                    }
+
+                    PackageUtils.updateVersion(context);    // Save new version name when router map update finish.
+                } else {
+                    logger.info(TAG, &quot;Load router map from cache.&quot;);
+                    routerMap = new HashSet&lt;&gt;(context.getSharedPreferences(AROUTER_SP_CACHE_KEY, Context.MODE_PRIVATE).getStringSet(AROUTER_SP_KEY_MAP, new HashSet&lt;String&gt;()));
+                }
+
+                logger.info(TAG, &quot;Find router map finished, map size = &quot; + routerMap.size() + &quot;, cost &quot; + (System.currentTimeMillis() - startInit) + &quot; ms.&quot;);
+                startInit = System.currentTimeMillis();
+
+                for (String className : routerMap) {
+                    if (className.startsWith(ROUTE_ROOT_PAKCAGE + DOT + SDK_NAME + SEPARATOR + SUFFIX_ROOT)) {
+                        // This one of root elements, load root.
+                        ((IRouteRoot) (Class.forName(className).getConstructor().newInstance())).loadInto(Warehouse.groupsIndex);
+                    } else if (className.startsWith(ROUTE_ROOT_PAKCAGE + DOT + SDK_NAME + SEPARATOR + SUFFIX_INTERCEPTORS)) {
+                        // Load interceptorMeta
+                        ((IInterceptorGroup) (Class.forName(className).getConstructor().newInstance())).loadInto(Warehouse.interceptorsIndex);
+                    } else if (className.startsWith(ROUTE_ROOT_PAKCAGE + DOT + SDK_NAME + SEPARATOR + SUFFIX_PROVIDERS)) {
+                        // Load providerIndex
+                        ((IProviderGroup) (Class.forName(className).getConstructor().newInstance())).loadInto(Warehouse.providersIndex);
+                    }
+                }
+            }
+
+            logger.info(TAG, &quot;Load root element finished, cost &quot; + (System.currentTimeMillis() - startInit) + &quot; ms.&quot;);
+
+            if (Warehouse.groupsIndex.size() == 0) {
+                logger.error(TAG, &quot;No mapping files were found, check your configuration please!&quot;);
+            }
+
+            if (ARouter.debuggable()) {
+                logger.debug(TAG, String.format(Locale.getDefault(), &quot;LogisticsCenter has already been loaded, GroupIndex[%d], InterceptorIndex[%d], ProviderIndex[%d]&quot;, Warehouse.groupsIndex.size(), Warehouse.interceptorsIndex.size(), Warehouse.providersIndex.size()));
+            }
+        } catch (Exception e) {
+            throw new HandlerException(TAG + &quot;ARouter init logistics center exception! [&quot; + e.getMessage() + &quot;]&quot;);
+        }
+    }
+</code></pre>
+<p>初始化路由表，将项目中添加的注解初始化到Warehouse.groupsIndex中，打断点可以看到：<br>
+<img src="https://elianworld.github.io//post-images/1608279198815.png" alt="" loading="lazy"></p>
+<p>在ARouter中_ARouter初始化后，对拦截器进行初始化：</p>
+<pre><code>_ARouter.afterInit();
+</code></pre>
+<p>afterInit中初始化interceptorService拦截器</p>
+<pre><code>    static void afterInit() {
+        // Trigger interceptor init, use byName.
+        interceptorService = (InterceptorService) ARouter.getInstance().build(&quot;/arouter/service/interceptor&quot;).navigation();
+    }
+</code></pre>
+<p>interceptorService用于在arouter的navigation中对用户的调用进行拦截处理</p>
+<h3 id="三-arouter跳转">三、arouter跳转</h3>
+<p>一个一般的跳转方法：</p>
+<pre><code>ARouter.getInstance().build(&quot;/world/setting&quot;).navigation(this, 2);
+</code></pre>
+<p>主要包含两个方法build和navigation</p>
+<h5 id="build方法">build方法：</h5>
+<p>入参为目标页面的pageid<br>
+方法：</p>
+<pre><code>    public Postcard build(String path) {
+        return _ARouter.getInstance().build(path);
+    }
+</code></pre>
+<p>_ARouter的build方法：</p>
+<pre><code>    protected Postcard build(String path) {
+        if (TextUtils.isEmpty(path)) {
+            throw new HandlerException(Consts.TAG + &quot;Parameter is invalid!&quot;);
+        } else {
+            PathReplaceService pService = ARouter.getInstance().navigation(PathReplaceService.class);
+            if (null != pService) {
+                path = pService.forString(path);
+            }
+            return build(path, extractGroup(path));
+        }
+    }
+</code></pre>
+<p>在<code>build(path, extractGroup(path));</code>中，返回一个Postcard对象，其中保存了目标的pageid和group信息。<br>
+Postcard是一次跳转过程中的一次路由请求，包含本次路由的基本信息</p>
+<h5 id="navigation方法">navigation方法：</h5>
+<p>navigation方法的参数包含Context和requestCode（可选）<br>
+最终调用了_ARouter的_navigation方法：</p>
+<pre><code>private Object _navigation(final Context context, final Postcard postcard, final int requestCode, final NavigationCallback callback)
+</code></pre>
+<p>context为入参中的Context，postcard为通过build获取到的路由对象<br>
+在该方法中我们看到根据postcard的type做了不同处理，包含以下类型：</p>
+<pre><code>    ACTIVITY(0, &quot;android.app.Activity&quot;),
+    SERVICE(1, &quot;android.app.Service&quot;),
+    PROVIDER(2, &quot;com.alibaba.android.arouter.facade.template.IProvider&quot;),
+    CONTENT_PROVIDER(-1, &quot;android.app.ContentProvider&quot;),
+    BOARDCAST(-1, &quot;&quot;),
+    METHOD(-1, &quot;&quot;),
+    FRAGMENT(-1, &quot;android.app.Fragment&quot;),
+</code></pre>
+<p>我们这里只做Activity间的跳转</p>
+<pre><code>                // Build intent
+                final Intent intent = new Intent(currentContext, postcard.getDestination());
+                intent.putExtras(postcard.getExtras());
+
+                // Set flags.
+                int flags = postcard.getFlags();
+                if (-1 != flags) {
+                    intent.setFlags(flags);
+                } else if (!(currentContext instanceof Activity)) {    // Non activity, need less one flag.
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+
+                // Navigation in main looper.
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (requestCode &gt; 0) {  // Need start for result
+                            ActivityCompat.startActivityForResult((Activity) currentContext, intent, requestCode, postcard.getOptionsBundle());
+                        } else {
+                            ActivityCompat.startActivity(currentContext, intent, postcard.getOptionsBundle());
+                        }
+
+                        if ((0 != postcard.getEnterAnim() || 0 != postcard.getExitAnim()) &amp;&amp; currentContext instanceof Activity) {    // Old version.
+                            ((Activity) currentContext).overridePendingTransition(postcard.getEnterAnim(), postcard.getExitAnim());
+                        }
+
+                        if (null != callback) { // Navigation over.
+                            callback.onArrival(postcard);
+                        }
+                    }
+                });
+</code></pre>
+<p>从postcard中获取传入的参数，上述示例中没有添加页面跳转的参数，从这部分代码我们可以看出来，在arouter中，使用mBundle保存了传入的参数，在构建跳转Intent时，通过<code>intent.putExtras(postcard.getExtras());</code>重置参数到intent中，通过<code>intent.setFlags(flags);</code>将预设的跳转标识传入intent中<br>
+然后通过Looper.getMainLooper()，在UI线程中进行跳转处理，从代码中我们可以看到，arouter同时实现了overridePendingTransition的封装，支持添加跳转的动画。<br>
+currentContext在传入的context为空时获取了application的context。</p>
+<p>arouter在_ARouter的_navigation方法之前，通过<code>LogisticsCenter.completion(postcard);</code>将path与目标class建立对应关系：<br>
+completion方法中通过<code>RouteMeta routeMeta = Warehouse.routes.get(postcard.getPath());</code>获取path对应的路由关系，routeMeta中就包含了目标Activity的路径。<br>
+completion后续将routeMeta中的信息转储到postcard中，最主要的：</p>
+<pre><code>postcard.setDestination(routeMeta.getDestination());
+</code></pre>
+<p>然后在上文构建intent的过程中将destination传入：</p>
+<pre><code>final Intent intent = new Intent(currentContext, postcard.getDestination());
+</code></pre>
+<h3 id="四-arouter特性分析">四、arouter特性分析</h3>
+<ul>
+<li>在多module中使用，支持组件化架构方案</li>
+<li>由arouter的postcard中type类型分析，可以知道，arouter支持多种类型的启动，包含常见的activity、Service、ContentProvider、Fragment等等</li>
+<li>由arouter维护路由表，减少了工程中路由关系的维护</li>
+<li>使用注解实现了分布式路由管理，编译期间处理注解，生成路由文件，不影响运行时的性能</li>
+<li>实现了自定义的拦截器，可以对应用中的路由进行拦截分析</li>
+</ul>
+<h4 id="ps使用arouter过程中不要忘记在manifest文件中注册activity和service等组件arouter不会处理组件的注册">PS：使用arouter过程中，不要忘记在Manifest文件中注册Activity和Service等组件，ARouter不会处理组件的注册。</h4>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Android应用程序启动流程]]></title>
         <id>https://elianworld.github.io/post/CwcvnCYMn/</id>
@@ -1304,45 +1514,6 @@ createSSLSocketFactory实现：</p>
         <content type="html"><![CDATA[<p>获取PendingIntent实例：<br>
 <code>PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);</code><br>
 当第四个参数设置为PendingIntent.FLAG_UPDATE_CURRENT时，可以为不同控件设置不同的点击响应，但是requestCode需要设置为不同的值，否则，实例会被后面设置的相同的requestCode覆盖。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android获取正在运行的应用信息]]></title>
-        <id>https://elianworld.github.io/post/VP7LQnWWf/</id>
-        <link href="https://elianworld.github.io/post/VP7LQnWWf/">
-        </link>
-        <updated>2020-11-24T07:01:19.000Z</updated>
-        <content type="html"><![CDATA[<hr>
-<p>API 26之前使用getRunningServices获取当前系统中正在运行的服务，参考代码：<br>
-<code>getSystemService(Context.ACTIVITY_SERVICE)).getRunningServices(Integer.MAX_VALUE)</code></p>
-<hr>
-<p>API 26之后，对系统服务的使用进行了限制，如果还用以上方法，仅能获取到应用本身正在运行的服务，无法获取到系统其它应用的信息，推荐使用以下方法：</p>
-<pre><code>        PackageManager localPackageManager = getPackageManager();
-		List localList = localPackageManager.getInstalledPackages(PackageManager.GET_PERMISSIONS);
-
-		for (int i = 0; i &lt; localList.size(); i++) {
-			PackageInfo localPackageInfo1 = (PackageInfo) localList.get(i);
-			String str1 = localPackageInfo1.packageName.split(&quot;:&quot;)[0];
-			if (((ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)) {
-				Log.e(TAG,str1);
-			}
-		}
-</code></pre>
-<p>其中</p>
-<ul>
-<li>
-<p><code>(ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0</code>表示剔除其中获取到的系统服务</p>
-</li>
-<li>
-<p><code>(ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示从获取的服务列表中剔除系统更新服务</p>
-</li>
-<li>
-<p><code>(ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示剔除其中已经停止的应用</p>
-</li>
-</ul>
-<p>其他剩余的就是正在运行中的非系统服务应用信息了。</p>
-<hr>
-<p>在实际运行过程中，可以发现获取到的list比真实运行中的应用要多，实际获取到的除了正在运行中的应用信息外，还有桌面组件、状态栏组件等应用信息，这是因为这些组件如果被用户添加到桌面，系统就认为组件所在应用的状态不是STOPPED，按照上文的过滤条件，自然被程序获取到了。</p>
 ]]></content>
     </entry>
 </feed>
