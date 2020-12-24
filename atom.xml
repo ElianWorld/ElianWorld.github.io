@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2020-12-20T11:27:39.906Z</updated>
+    <updated>2020-12-24T08:56:22.749Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -10,6 +10,46 @@
     <logo>https://elianworld.github.io/images/avatar.png</logo>
     <icon>https://elianworld.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rain</rights>
+    <entry>
+        <title type="html"><![CDATA[Android MMKV-高性能键值对存取组件]]></title>
+        <id>https://elianworld.github.io/post/e9UJGvgZc/</id>
+        <link href="https://elianworld.github.io/post/e9UJGvgZc/">
+        </link>
+        <updated>2020-12-20T11:28:40.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="一-基础使用">一、基础使用：</h3>
+<ul>
+<li>引入组件（最新版本参考<a href="https://github.com/Tencent/MMKV">官方github</a>）：</li>
+</ul>
+<pre><code>implementation 'com.tencent:mmkv-static:1.2.6'
+</code></pre>
+<ul>
+<li>初始化：<br>
+应用的Application中添加：</li>
+</ul>
+<pre><code>MMKV.initialize(this);
+</code></pre>
+<ul>
+<li>存值：</li>
+</ul>
+<pre><code>MMKV kv = MMKV.defaultMMKV();
+kv.encode(&quot;key&quot;, &quot;saved&quot;);
+</code></pre>
+<ul>
+<li>取值</li>
+</ul>
+<pre><code>String str = kv.decodeString(&quot;key&quot;);
+</code></pre>
+<h3 id="二-原理">二、原理</h3>
+<p>1、mmap内存映射<br>
+MMKV通过内存映射mmap提供给应用程序一块儿可供读写的内存块，用户只需要关注读写数据，不需要关注数据的持久化。<br>
+说到mmap，自然就想到了Android的跨进程通信组件Binder，mmap方法实际上是把设备指定的内存块直接映射到了应用程序的内存空间，Binder是将这块儿内存空间当做进程间通信的桥梁，MMKV是使用这块儿内存空间提供给用户以进行高效的读写。<br>
+2、使用<a href="https://developers.google.com/protocol-buffers">谷歌protobuf协议</a>进行序列化和反序列化<br>
+3、为保证写入速度，MMKV采用增量更新的机制，sharepreferences每次在commit的时候，都是对文件进行全量的更新，在数据量较大时，可能造成卡顿的现象（sharepreferences在设计之初就不是为了保存大文件），为了提升写入速度，减少全量更新的问题，MMKV会在对数据进行序列化后，append到内存末尾，读入时，使用后写入的值即可。</p>
+<h3 id="三-问题">三、问题</h3>
+<p>1、增量更新机制虽然在大多数情况下能保证数据写入的效率，但是在申请的内存块儿使用到了末尾时，会进行内存重整，体现在用户侧就是在发生重整时，卡顿现象更为明显。<br>
+2、MMKV的机制本身保证了其自身是支持跨进程访问的，但同时又面对着多进程读写的问题，MMKV使用重新封装的文件锁来保证跨进程访问安全，具体细节：<a href="https://github.com/Tencent/MMKV/wiki/android_ipc">MMKV for Android 多进程设计与实现</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Android 路由策略arouter]]></title>
         <id>https://elianworld.github.io/post/gh7GSa13m/</id>
@@ -1503,17 +1543,6 @@ createSSLSocketFactory实现：</p>
 <hr>
 <h5 id="解决更新完视图桌面组件没有更新的问题">解决更新完视图，桌面组件没有更新的问题</h5>
 <p>onReceive打日志，看到接收到广播后，更新了RemoteViews，但是桌面没有及时更新，需要将<code>appWidgetManager.updateAppWidget(appWidgetId, remoteViews)</code>修改成<code>appWidgetManager.updateAppWidget(new ComponentName(context, Widget.class), remoteViews);</code>，就可以在onReceive更新视图后，及时在桌面看到更新后的组件。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android-AppWidget为不同控件设置不同的点击响应]]></title>
-        <id>https://elianworld.github.io/post/YyN1kv1tR/</id>
-        <link href="https://elianworld.github.io/post/YyN1kv1tR/">
-        </link>
-        <updated>2020-11-30T11:13:14.000Z</updated>
-        <content type="html"><![CDATA[<p>获取PendingIntent实例：<br>
-<code>PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);</code><br>
-当第四个参数设置为PendingIntent.FLAG_UPDATE_CURRENT时，可以为不同控件设置不同的点击响应，但是requestCode需要设置为不同的值，否则，实例会被后面设置的相同的requestCode覆盖。</p>
 ]]></content>
     </entry>
 </feed>
