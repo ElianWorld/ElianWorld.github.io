@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Android获取正在运行的应用信息 | Rain</title>
+<title>Android arouter路由实记 | Rain</title>
 <meta name="description" content="隔壁超市薯片半价">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,58 +80,43 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">Android获取正在运行的应用信息</h2>
+          <h2 class="post-title">Android arouter路由实记</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-11-24</span>
-            
-              <span>
-                <i class="icon-pricetags-outline"></i>
-                
-                  <a href="https://elianworld.github.io/tag/U6K5T9QVc/">
-                    Android
-                    
-                  </a>
-                
-              </span>
+            <span><i class="icon-calendar-outline"></i> 2021-01-13</span>
             
           </div>
           <div class="post-content">
-            <hr>
-<p>API 26之前使用getRunningServices获取当前系统中正在运行的服务，参考代码：<br>
-<code>getSystemService(Context.ACTIVITY_SERVICE)).getRunningServices(Integer.MAX_VALUE)</code></p>
-<hr>
-<p>API 26之后，对系统服务的使用进行了限制，如果还用以上方法，仅能获取到应用本身正在运行的服务，无法获取到系统其它应用的信息，推荐使用以下方法：</p>
-<pre><code>        PackageManager localPackageManager = getPackageManager();
-		List localList = localPackageManager.getInstalledPackages(PackageManager.GET_PERMISSIONS);
-
-		for (int i = 0; i &lt; localList.size(); i++) {
-			PackageInfo localPackageInfo1 = (PackageInfo) localList.get(i);
-			String str1 = localPackageInfo1.packageName.split(&quot;:&quot;)[0];
-			if (((ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0) &amp;&amp; ((ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)) {
-				Log.e(TAG,str1);
-			}
-		}
+            <h4 id="1-不同组件的路由group必须不同">1、不同组件的路由group必须不同</h4>
+<p>arouter在编译期间对工程中的不同组件的路由关系进行校验，不同组件之间、组件和主工程之间的group必须不同</p>
+<h4 id="2-所有有需要路由跳转的对象需要在主工程进行注册">2、所有有需要路由跳转的对象，需要在主工程进行注册</h4>
+<p>arouter不支持插件化的热加载，需要在主工程dependencies手动注册对应的组件后，才可以实现路由跳转</p>
+<h4 id="3-最后在统一的资源组件中对路由关系进行维护">3、最后在统一的资源组件中对路由关系进行维护</h4>
+<p>可以选择在资源组件中对工程中不同组件的路由关系进行手动维护，优势是可以添加路由的注释，便于后期维护，也可以把路由和组件间的对应关系也描述在资源组件中</p>
+<h4 id="4-新添加路由后最好卸载重新运行app">4、新添加路由后，最好卸载重新运行app</h4>
+<p>实际运行期间，如果不卸载重新运行，可能找不到路由报错</p>
+<h4 id="5-组件资源的命名最好以group开头防止因为资源冲突导致编译错误">5、组件资源的命名最好以group开头，防止因为资源冲突导致编译错误</h4>
+<p>APK在打包过程中会对资源进行统一的打包，有兴趣的可以看下APK打包流程和AAPT的实现逻辑，在实际使用过程中，为防止资源的冲突，最好将资源的命名以group为开头，保证编译不出问题</p>
+<h4 id="6-如果代码编写过程中出现资源加载异常比如通过r定位不到对应的资源了最好invalidate-caches-restart">6、如果代码编写过程中出现资源加载异常，比如通过R定位不到对应的资源了，最好Invalidate Caches / Restart</h4>
+<h4 id="7-使用arouter的组件中gradle文件的defaultconfig中务必添加以下设置">7、使用arouter的组件中，gradle文件的defaultConfig中务必添加以下设置</h4>
+<pre><code>        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
 </code></pre>
-<p>其中</p>
-<ul>
-<li>
-<p><code>(ApplicationInfo.FLAG_SYSTEM &amp; localPackageInfo1.applicationInfo.flags) == 0</code>表示剔除其中获取到的系统服务</p>
-</li>
-<li>
-<p><code>(ApplicationInfo.FLAG_UPDATED_SYSTEM_APP &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示从获取的服务列表中剔除系统更新服务</p>
-</li>
-<li>
-<p><code>(ApplicationInfo.FLAG_STOPPED &amp; localPackageInfo1.applicationInfo.flags) == 0)</code>表示剔除其中已经停止的应用</p>
-</li>
-</ul>
-<p>其他剩余的就是正在运行中的非系统服务应用信息了。</p>
-<hr>
-<p>在实际运行过程中，可以发现获取到的list比真实运行中的应用要多，实际获取到的除了正在运行中的应用信息外，还有桌面组件、状态栏组件等应用信息，这是因为这些组件如果被用户添加到桌面，系统就认为组件所在应用的状态不是STOPPED，按照上文的过滤条件，自然被程序获取到了。</p>
 
           </div>
         </div>
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://elianworld.github.io/post/e9UJGvgZc/">
+              <h3 class="post-title">
+                下一篇：Android MMKV-高性能键值对存取组件
+              </h3>
+            </a>
+          </div>
+          
       </div>
 
       

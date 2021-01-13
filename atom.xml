@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2021-01-08T07:42:08.486Z</updated>
+    <updated>2021-01-13T07:51:07.289Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -10,6 +10,32 @@
     <logo>https://elianworld.github.io/images/avatar.png</logo>
     <icon>https://elianworld.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Rain</rights>
+    <entry>
+        <title type="html"><![CDATA[Android arouter路由实记]]></title>
+        <id>https://elianworld.github.io/post/9sW9TzfSP/</id>
+        <link href="https://elianworld.github.io/post/9sW9TzfSP/">
+        </link>
+        <updated>2021-01-13T07:37:54.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="1-不同组件的路由group必须不同">1、不同组件的路由group必须不同</h4>
+<p>arouter在编译期间对工程中的不同组件的路由关系进行校验，不同组件之间、组件和主工程之间的group必须不同</p>
+<h4 id="2-所有有需要路由跳转的对象需要在主工程进行注册">2、所有有需要路由跳转的对象，需要在主工程进行注册</h4>
+<p>arouter不支持插件化的热加载，需要在主工程dependencies手动注册对应的组件后，才可以实现路由跳转</p>
+<h4 id="3-最后在统一的资源组件中对路由关系进行维护">3、最后在统一的资源组件中对路由关系进行维护</h4>
+<p>可以选择在资源组件中对工程中不同组件的路由关系进行手动维护，优势是可以添加路由的注释，便于后期维护，也可以把路由和组件间的对应关系也描述在资源组件中</p>
+<h4 id="4-新添加路由后最好卸载重新运行app">4、新添加路由后，最好卸载重新运行app</h4>
+<p>实际运行期间，如果不卸载重新运行，可能找不到路由报错</p>
+<h4 id="5-组件资源的命名最好以group开头防止因为资源冲突导致编译错误">5、组件资源的命名最好以group开头，防止因为资源冲突导致编译错误</h4>
+<p>APK在打包过程中会对资源进行统一的打包，有兴趣的可以看下APK打包流程和AAPT的实现逻辑，在实际使用过程中，为防止资源的冲突，最好将资源的命名以group为开头，保证编译不出问题</p>
+<h4 id="6-如果代码编写过程中出现资源加载异常比如通过r定位不到对应的资源了最好invalidate-caches-restart">6、如果代码编写过程中出现资源加载异常，比如通过R定位不到对应的资源了，最好Invalidate Caches / Restart</h4>
+<h4 id="7-使用arouter的组件中gradle文件的defaultconfig中务必添加以下设置">7、使用arouter的组件中，gradle文件的defaultConfig中务必添加以下设置</h4>
+<pre><code>        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Android MMKV-高性能键值对存取组件]]></title>
         <id>https://elianworld.github.io/post/e9UJGvgZc/</id>
@@ -1530,27 +1556,6 @@ createSSLSocketFactory实现：</p>
 </ul>
 <hr>
 <p><strong>特别注意：系统设备制造商可以修改LMK回收进程的机制，这会导致一些不同厂商之间的兼容性问题。</strong></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android-AppWidget自定义更新]]></title>
-        <id>https://elianworld.github.io/post/l8rYtKTpC/</id>
-        <link href="https://elianworld.github.io/post/l8rYtKTpC/">
-        </link>
-        <updated>2020-12-02T01:19:12.000Z</updated>
-        <content type="html"><![CDATA[<h5 id="更新周期设置">更新周期设置</h5>
-<p>xml/widget-info.xml中updatePeriodMillis表示更新频率，以30分钟为更新周期，该值设置不足30分钟的整倍数时，向上取整，比如设置更新周期2分钟，则真实更新周期就是30分钟【系统为省电做的设计】</p>
-<hr>
-<p>为支持自定义的更新频率，也就是想什么时候更新就什么时候更新，需要设置updatePeriodMillis为0，然后有以下两种方式设置：</p>
-<ul>
-<li>自定义service：在WidgetProvider中的onUpdate启动service更新RemoteViews，网上有很多介绍，这里不再重复</li>
-<li>代码中使用广播按需更新：<br>
-<code>Intent intent = new Intent(this, Widget.class); intent.setAction(Widget_Action); sendBroadcast(intent);</code><br>
-在需要更新widget时，发送WidgetProvider中能接收到的广播，然后在WidgetProvider的onReceive更新RemoteViews。</li>
-</ul>
-<hr>
-<h5 id="解决更新完视图桌面组件没有更新的问题">解决更新完视图，桌面组件没有更新的问题</h5>
-<p>onReceive打日志，看到接收到广播后，更新了RemoteViews，但是桌面没有及时更新，需要将<code>appWidgetManager.updateAppWidget(appWidgetId, remoteViews)</code>修改成<code>appWidgetManager.updateAppWidget(new ComponentName(context, Widget.class), remoteViews);</code>，就可以在onReceive更新视图后，及时在桌面看到更新后的组件。</p>
 ]]></content>
     </entry>
 </feed>
