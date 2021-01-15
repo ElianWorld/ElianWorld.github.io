@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2021-01-13T07:51:07.289Z</updated>
+    <updated>2021-01-15T07:05:03.226Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -10,6 +10,24 @@
     <logo>https://elianworld.github.io/images/avatar.png</logo>
     <icon>https://elianworld.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Rain</rights>
+    <entry>
+        <title type="html"><![CDATA[MAC电脑升级Big Sur后Android Studio问题踩坑录]]></title>
+        <id>https://elianworld.github.io/post/8OL54oMiX/</id>
+        <link href="https://elianworld.github.io/post/8OL54oMiX/">
+        </link>
+        <updated>2021-01-15T05:23:06.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="第一个问题升级之后android-studio在非主tab下打开新tab卡死的问题">第一个问题：升级之后Android Studio在非主TAB下打开新TAB卡死的问题</h4>
+<p>此问题Google官方的解决方案如下：https://developer.android.com/studio/known-issues?hl=zh-cn<br>
+但是应该是Android Studio版本问题没有找到对应的选项，所以就使用了命令行的解决方案，打开MAC命令行，执行以下：</p>
+<pre><code>defaults write com.google.android.studio AppleWindowTabbingMode manual
+</code></pre>
+<p>关闭Android Studio后重启就没这个问题了</p>
+<hr>
+<h4 id="第二个问题升级系统之后偶然出现android-studio识别不了手机的问题">第二个问题：升级系统之后，偶然出现Android Studio识别不了手机的问题</h4>
+<p>在运行程序时，插上手机，在设备列表中没有显示设备，手机上显示充电中，DEBUG模式没有问题。</p>
+<p>刚开始以为adb链接出现问题，不断重启adb server，断开手机连接线，重新链接，没有效果，最后发现是电脑识别USB口的模式没有更新，断开雷电口的链接线，重新插入即可（之前版本的系统，不需要重连操作即可识别设备）【MAC BOOK的转接头是苹果官方的，与雷电口的兼容应该还行，问题必现流程：转接口接iPad后，断开iPad设备，连接手机进行ADB调试，就识别不出来了】</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Android arouter路由实记]]></title>
         <id>https://elianworld.github.io/post/9sW9TzfSP/</id>
@@ -1503,59 +1521,6 @@ createSSLSocketFactory实现：</p>
         </link>
         <updated>2020-12-02T03:29:56.000Z</updated>
         <content type="html"><![CDATA[<p>12</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android内存管理机制]]></title>
-        <id>https://elianworld.github.io/post/androidcacheuse/</id>
-        <link href="https://elianworld.github.io/post/androidcacheuse/">
-        </link>
-        <updated>2020-12-02T02:39:16.000Z</updated>
-        <content type="html"><![CDATA[<h4 id="一-综述">一、综述</h4>
-<p>按照官网介绍，Android是使用分页和内存映射管理内存，按照内存映射的原理，应用修改的任何内存，都会常驻在RAM中， 应用释放内存的方法有两种：</p>
-<ul>
-<li>释放对象引用，被垃圾回收器回收内存</li>
-<li>系统为其他应用分配内存时，按照一定的管理机制，将其从RAM中换出</li>
-</ul>
-<p>按照这种原理，对于返回到后台的应用，不需要直接从后台程序中删除，可以防止删除后，重新启动初始化导致更多的内存占用和耗电。</p>
-<h4 id="二-内存分配">二、内存分配</h4>
-<p>Android系统会在应用关闭后将其保留在内存中，以便用户快速切回到这些应用。因此，通常情况下，Android 设备在运行时几乎没有可用的内存。<br>
-系统有两种内存不足时，回收内存的机制：内核交换守护进程（kswapd）和低内存终止守护进程（LMK）。<br>
-通常情况下，系统优先适用内核交换守护进程来回收内存，当可用内存过小（低于下限）激活守护进程，可用内存充足（高于上限），守护进程停止回收内存。<br>
-内核交换守护进程通过删除内存中未经修改的页面或者将已修改的页面回写到存储器来回收内存。<br>
-当kswapd不足以处理内存不足的情况时，系统优先减少可用内存的分配量，如果可用内存还不足，则启动LMK终止内存中的进程来回收内存。LMK按照一定的优先级对进程进行回收。</p>
-<h5 id="1-低内存终止守护进程lmk优先级">1、低内存终止守护进程（LMK）优先级</h5>
-<ul>
-<li>
-<p>后台应用：之前运行过且当前不处于活动状态的应用。LMK 将首先从具有最高 oom_adj_score 的应用开始终止后台应用。</p>
-</li>
-<li>
-<p>上一个应用：最近用过的后台应用。上一个应用比后台应用具有更高的优先级（得分更低），因为相比某个后台应用，用户更有可能切换到上一个应用。</p>
-</li>
-<li>
-<p>主屏幕应用：这是启动器应用。终止该应用会使壁纸消失。</p>
-</li>
-<li>
-<p>服务：服务由应用启动，可能包括同步或上传到云端。</p>
-</li>
-<li>
-<p>可觉察的应用：用户可通过某种方式察觉到的非前台应用，例如运行一个显示小界面的搜索进程或听音乐。</p>
-</li>
-<li>
-<p>前台应用：当前正在使用的应用。终止前台应用看起来就像是应用崩溃了，可能会向用户提示设备出了问题。</p>
-</li>
-<li>
-<p>持久性（服务）：这些是设备的核心服务，例如电话和 WLAN。</p>
-</li>
-<li>
-<p>系统：系统进程。这些进程被终止后，手机可能看起来即将重新启动。</p>
-</li>
-<li>
-<p>原生：系统使用的极低级别的进程（例如，kswapd）</p>
-</li>
-</ul>
-<hr>
-<p><strong>特别注意：系统设备制造商可以修改LMK回收进程的机制，这会导致一些不同厂商之间的兼容性问题。</strong></p>
 ]]></content>
     </entry>
 </feed>

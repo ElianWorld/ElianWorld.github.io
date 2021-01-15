@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Android arouter路由实记 | Rain</title>
+<title>MAC电脑升级Big Sur后Android Studio问题踩坑录 | Rain</title>
 <meta name="description" content="隔壁超市薯片半价">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,39 +80,31 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">Android arouter路由实记</h2>
+          <h2 class="post-title">MAC电脑升级Big Sur后Android Studio问题踩坑录</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2021-01-13</span>
+            <span><i class="icon-calendar-outline"></i> 2021-01-15</span>
             
           </div>
           <div class="post-content">
-            <h4 id="1-不同组件的路由group必须不同">1、不同组件的路由group必须不同</h4>
-<p>arouter在编译期间对工程中的不同组件的路由关系进行校验，不同组件之间、组件和主工程之间的group必须不同</p>
-<h4 id="2-所有有需要路由跳转的对象需要在主工程进行注册">2、所有有需要路由跳转的对象，需要在主工程进行注册</h4>
-<p>arouter不支持插件化的热加载，需要在主工程dependencies手动注册对应的组件后，才可以实现路由跳转</p>
-<h4 id="3-最后在统一的资源组件中对路由关系进行维护">3、最后在统一的资源组件中对路由关系进行维护</h4>
-<p>可以选择在资源组件中对工程中不同组件的路由关系进行手动维护，优势是可以添加路由的注释，便于后期维护，也可以把路由和组件间的对应关系也描述在资源组件中</p>
-<h4 id="4-新添加路由后最好卸载重新运行app">4、新添加路由后，最好卸载重新运行app</h4>
-<p>实际运行期间，如果不卸载重新运行，可能找不到路由报错</p>
-<h4 id="5-组件资源的命名最好以group开头防止因为资源冲突导致编译错误">5、组件资源的命名最好以group开头，防止因为资源冲突导致编译错误</h4>
-<p>APK在打包过程中会对资源进行统一的打包，有兴趣的可以看下APK打包流程和AAPT的实现逻辑，在实际使用过程中，为防止资源的冲突，最好将资源的命名以group为开头，保证编译不出问题</p>
-<h4 id="6-如果代码编写过程中出现资源加载异常比如通过r定位不到对应的资源了最好invalidate-caches-restart">6、如果代码编写过程中出现资源加载异常，比如通过R定位不到对应的资源了，最好Invalidate Caches / Restart</h4>
-<h4 id="7-使用arouter的组件中gradle文件的defaultconfig中务必添加以下设置">7、使用arouter的组件中，gradle文件的defaultConfig中务必添加以下设置</h4>
-<pre><code>        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [moduleName: project.getName()]
-            }
-        }
+            <h4 id="第一个问题升级之后android-studio在非主tab下打开新tab卡死的问题">第一个问题：升级之后Android Studio在非主TAB下打开新TAB卡死的问题</h4>
+<p>此问题Google官方的解决方案如下：https://developer.android.com/studio/known-issues?hl=zh-cn<br>
+但是应该是Android Studio版本问题没有找到对应的选项，所以就使用了命令行的解决方案，打开MAC命令行，执行以下：</p>
+<pre><code>defaults write com.google.android.studio AppleWindowTabbingMode manual
 </code></pre>
+<p>关闭Android Studio后重启就没这个问题了</p>
+<hr>
+<h4 id="第二个问题升级系统之后偶然出现android-studio识别不了手机的问题">第二个问题：升级系统之后，偶然出现Android Studio识别不了手机的问题</h4>
+<p>在运行程序时，插上手机，在设备列表中没有显示设备，手机上显示充电中，DEBUG模式没有问题。</p>
+<p>刚开始以为adb链接出现问题，不断重启adb server，断开手机连接线，重新链接，没有效果，最后发现是电脑识别USB口的模式没有更新，断开雷电口的链接线，重新插入即可（之前版本的系统，不需要重连操作即可识别设备）【MAC BOOK的转接头是苹果官方的，与雷电口的兼容应该还行，问题必现流程：转接口接iPad后，断开iPad设备，连接手机进行ADB调试，就识别不出来了】</p>
 
           </div>
         </div>
 
         
           <div class="next-post">
-            <a class="purple-link" href="https://elianworld.github.io/post/e9UJGvgZc/">
+            <a class="purple-link" href="https://elianworld.github.io/post/9sW9TzfSP/">
               <h3 class="post-title">
-                下一篇：Android MMKV-高性能键值对存取组件
+                下一篇：Android arouter路由实记
               </h3>
             </a>
           </div>
