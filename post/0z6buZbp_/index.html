@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Android MMKV-高性能键值对存取组件 | Rain</title>
+<title>Cause: buildOutput.apkData must not be null问题总结 | Rain</title>
 <meta name="description" content="隔壁超市薯片半价">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,53 +80,37 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">Android MMKV-高性能键值对存取组件</h2>
+          <h2 class="post-title">Cause: buildOutput.apkData must not be null问题总结</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-12-20</span>
+            <span><i class="icon-calendar-outline"></i> 2021-03-03</span>
             
           </div>
           <div class="post-content">
-            <h3 id="一-基础使用">一、基础使用：</h3>
-<ul>
-<li>引入组件（最新版本参考<a href="https://github.com/Tencent/MMKV">官方github</a>）：</li>
-</ul>
-<pre><code>implementation 'com.tencent:mmkv-static:1.2.6'
-</code></pre>
-<ul>
-<li>初始化：<br>
-应用的Application中添加：</li>
-</ul>
-<pre><code>MMKV.initialize(this);
-</code></pre>
-<ul>
-<li>存值：</li>
-</ul>
-<pre><code>MMKV kv = MMKV.defaultMMKV();
-kv.encode(&quot;key&quot;, &quot;saved&quot;);
-</code></pre>
-<ul>
-<li>取值</li>
-</ul>
-<pre><code>String str = kv.decodeString(&quot;key&quot;);
-</code></pre>
-<h3 id="二-原理">二、原理</h3>
-<p>1、mmap内存映射<br>
-MMKV通过内存映射mmap提供给应用程序一块儿可供读写的内存块，用户只需要关注读写数据，不需要关注数据的持久化。<br>
-说到mmap，自然就想到了Android的跨进程通信组件Binder，mmap方法实际上是把设备指定的内存块直接映射到了应用程序的内存空间，Binder是将这块儿内存空间当做进程间通信的桥梁，MMKV是使用这块儿内存空间提供给用户以进行高效的读写。<br>
-2、使用<a href="https://developers.google.com/protocol-buffers">谷歌protobuf协议</a>进行序列化和反序列化<br>
-3、为保证写入速度，MMKV采用增量更新的机制，sharepreferences每次在commit的时候，都是对文件进行全量的更新，在数据量较大时，可能造成卡顿的现象（sharepreferences在设计之初就不是为了保存大文件），为了提升写入速度，减少全量更新的问题，MMKV会在对数据进行序列化后，append到内存末尾，读入时，使用后写入的值即可。</p>
-<h3 id="三-问题">三、问题</h3>
-<p>1、增量更新机制虽然在大多数情况下能保证数据写入的效率，但是在申请的内存块儿使用到了末尾时，会进行内存重整，体现在用户侧就是在发生重整时，卡顿现象更为明显。<br>
-2、MMKV的机制本身保证了其自身是支持跨进程访问的，但同时又面对着多进程读写的问题，MMKV使用重新封装的文件锁来保证跨进程访问安全，具体细节：<a href="https://github.com/Tencent/MMKV/wiki/android_ipc">MMKV for Android 多进程设计与实现</a></p>
+            <p>####问题：<br>
+从同一个工程代码打出来第二个APP后，打包过程出现了apkData must not be null，虽然不影响打包生成APK文件，但是看见总是觉得难受，就来看下怎么解决吧：<br>
+####解决方案：<br>
+#####1、Clean Project<br>
+正常打包输出的文件除了APK之外，还有output.json文件，里面的数据结构如下：<br>
+<img src="https://elianworld.github.io//post-images/1614753919929.png" alt="" loading="lazy"><br>
+path就是指向的apk的生成路径，怀疑是这里输出有问题，删除json文件之后，重新clearn project之后，打包，还是报错。</p>
+<hr>
+<p>#####2、删除module和主工程的的build目录后，重新rebuild打包<br>
+删除json文件，重新生成的解决方案不生效之后，怀疑是本地缓存导致的部分apkData无法达到apk文件中，apk打包流程中资源的打包和代码的打包是两套不一样的流程，具体的步骤后续文章中再详细介绍。<br>
+删除module和主工程build目录，rebuild，重新打包，依旧报错。。。</p>
+<hr>
+<p>#####3、打包最后一步修改原有指定的输出路径<br>
+因为涉及到一套工程输出两个APK，就怀疑是否是另一套输出路径中的json文件影响了新APK的输出，修改输出路径，重新打包后，解决问题。<br>
+####总结：<br>
+查找了相关文章，大部分的buildOutput.apkData must not be null问题都可以按照步骤1或者2解决，但是因为问题出现的前置场景不一样，可能是不一样的问题导致的相同的现象，但是根本原因是一致的，看报错提示，很明显是输出的apkData为null导致的，但是即使有报错，APK也能正常生成使用，这个问题可能是gradle版本的问题。</p>
 
           </div>
         </div>
 
         
           <div class="next-post">
-            <a class="purple-link" href="https://elianworld.github.io/post/gh7GSa13m/">
+            <a class="purple-link" href="https://elianworld.github.io/post/8OL54oMiX/">
               <h3 class="post-title">
-                下一篇：Android 路由策略arouter
+                下一篇：MAC电脑升级Big Sur后Android Studio问题踩坑录
               </h3>
             </a>
           </div>

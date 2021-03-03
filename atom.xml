@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2021-01-15T07:05:03.226Z</updated>
+    <updated>2021-03-03T07:07:23.853Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -10,6 +10,30 @@
     <logo>https://elianworld.github.io/images/avatar.png</logo>
     <icon>https://elianworld.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Rain</rights>
+    <entry>
+        <title type="html"><![CDATA[Cause: buildOutput.apkData must not be null问题总结]]></title>
+        <id>https://elianworld.github.io/post/0z6buZbp_/</id>
+        <link href="https://elianworld.github.io/post/0z6buZbp_/">
+        </link>
+        <updated>2021-03-03T06:38:09.000Z</updated>
+        <content type="html"><![CDATA[<p>####问题：<br>
+从同一个工程代码打出来第二个APP后，打包过程出现了apkData must not be null，虽然不影响打包生成APK文件，但是看见总是觉得难受，就来看下怎么解决吧：<br>
+####解决方案：<br>
+#####1、Clean Project<br>
+正常打包输出的文件除了APK之外，还有output.json文件，里面的数据结构如下：<br>
+<img src="https://elianworld.github.io//post-images/1614753919929.png" alt="" loading="lazy"><br>
+path就是指向的apk的生成路径，怀疑是这里输出有问题，删除json文件之后，重新clearn project之后，打包，还是报错。</p>
+<hr>
+<p>#####2、删除module和主工程的的build目录后，重新rebuild打包<br>
+删除json文件，重新生成的解决方案不生效之后，怀疑是本地缓存导致的部分apkData无法达到apk文件中，apk打包流程中资源的打包和代码的打包是两套不一样的流程，具体的步骤后续文章中再详细介绍。<br>
+删除module和主工程build目录，rebuild，重新打包，依旧报错。。。</p>
+<hr>
+<p>#####3、打包最后一步修改原有指定的输出路径<br>
+因为涉及到一套工程输出两个APK，就怀疑是否是另一套输出路径中的json文件影响了新APK的输出，修改输出路径，重新打包后，解决问题。<br>
+####总结：<br>
+查找了相关文章，大部分的buildOutput.apkData must not be null问题都可以按照步骤1或者2解决，但是因为问题出现的前置场景不一样，可能是不一样的问题导致的相同的现象，但是根本原因是一致的，看报错提示，很明显是输出的apkData为null导致的，但是即使有报错，APK也能正常生成使用，这个问题可能是gradle版本的问题。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[MAC电脑升级Big Sur后Android Studio问题踩坑录]]></title>
         <id>https://elianworld.github.io/post/8OL54oMiX/</id>
@@ -1512,15 +1536,6 @@ createSSLSocketFactory实现：</p>
     }
 </code></pre>
 <p>具体实现需进行代码保护，并在此基础上加上应用程序的签名校验，防止去除证书校验后二次打包。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android系统启动流程]]></title>
-        <id>https://elianworld.github.io/post/vfUOk3Sip/</id>
-        <link href="https://elianworld.github.io/post/vfUOk3Sip/">
-        </link>
-        <updated>2020-12-02T03:29:56.000Z</updated>
-        <content type="html"><![CDATA[<p>12</p>
 ]]></content>
     </entry>
 </feed>
