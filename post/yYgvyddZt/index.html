@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Android-AppWidget自定义更新 | Rain</title>
+<title>一套代码打不通APK——dependencies依赖相关 | Rain</title>
 <meta name="description" content="隔壁超市薯片半价">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,44 +80,38 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">Android-AppWidget自定义更新</h2>
+          <h2 class="post-title">一套代码打不通APK——dependencies依赖相关</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-12-02</span>
-            
-              <span>
-                <i class="icon-pricetags-outline"></i>
-                
-                  <a href="https://elianworld.github.io/tag/U6K5T9QVc/">
-                    Android
-                    
-                  </a>
-                
-              </span>
+            <span><i class="icon-calendar-outline"></i> 2021-03-16</span>
             
           </div>
           <div class="post-content">
-            <h5 id="更新周期设置">更新周期设置</h5>
-<p>xml/widget-info.xml中updatePeriodMillis表示更新频率，以30分钟为更新周期，该值设置不足30分钟的整倍数时，向上取整，比如设置更新周期2分钟，则真实更新周期就是30分钟【系统为省电做的设计】</p>
-<hr>
-<p>为支持自定义的更新频率，也就是想什么时候更新就什么时候更新，需要设置updatePeriodMillis为0，然后有以下两种方式设置：</p>
-<ul>
-<li>自定义service：在WidgetProvider中的onUpdate启动service更新RemoteViews，网上有很多介绍，这里不再重复</li>
-<li>代码中使用广播按需更新：<br>
-<code>Intent intent = new Intent(this, Widget.class); intent.setAction(Widget_Action); sendBroadcast(intent);</code><br>
-在需要更新widget时，发送WidgetProvider中能接收到的广播，然后在WidgetProvider的onReceive更新RemoteViews。</li>
-</ul>
-<hr>
-<h5 id="解决更新完视图桌面组件没有更新的问题">解决更新完视图，桌面组件没有更新的问题</h5>
-<p>onReceive打日志，看到接收到广播后，更新了RemoteViews，但是桌面没有及时更新，需要将<code>appWidgetManager.updateAppWidget(appWidgetId, remoteViews)</code>修改成<code>appWidgetManager.updateAppWidget(new ComponentName(context, Widget.class), remoteViews);</code>，就可以在onReceive更新视图后，及时在桌面看到更新后的组件。</p>
+            <p>有时候APP的运行环境不同，使用的库也要不一样，一般的做法是把所有的库都添加进来，然后跟据运行环境判断一下，再调用相应的库。另外一种做法是为不同的产品编译不同的库，产品A只编译自己需要库，不需要编译对自己无用的库：<br>
+假如productFlavors中有如下配置：</p>
+<pre><code>productFlavors {
+            appone {
+            }
+
+            apptwo {
+            }
+        }
+</code></pre>
+<p>可以在dependencies中按以下配置：</p>
+<pre><code>dependencies {
+    # ....
+    apponeCompile '*********'
+    apptwoCompile '*********'
+}
+</code></pre>
 
           </div>
         </div>
 
         
           <div class="next-post">
-            <a class="purple-link" href="https://elianworld.github.io/post/YyN1kv1tR/">
+            <a class="purple-link" href="https://elianworld.github.io/post/0z6buZbp_/">
               <h3 class="post-title">
-                下一篇：Android-AppWidget为不同控件设置不同的点击响应
+                下一篇：Cause: buildOutput.apkData must not be null问题总结
               </h3>
             </a>
           </div>

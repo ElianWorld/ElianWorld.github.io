@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2021-03-04T06:19:18.327Z</updated>
+    <updated>2021-06-17T01:55:45.146Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -10,6 +10,31 @@
     <logo>https://elianworld.github.io/images/avatar.png</logo>
     <icon>https://elianworld.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Rain</rights>
+    <entry>
+        <title type="html"><![CDATA[一套代码打不通APK——dependencies依赖相关]]></title>
+        <id>https://elianworld.github.io/post/yYgvyddZt/</id>
+        <link href="https://elianworld.github.io/post/yYgvyddZt/">
+        </link>
+        <updated>2021-03-16T02:13:17.000Z</updated>
+        <content type="html"><![CDATA[<p>有时候APP的运行环境不同，使用的库也要不一样，一般的做法是把所有的库都添加进来，然后跟据运行环境判断一下，再调用相应的库。另外一种做法是为不同的产品编译不同的库，产品A只编译自己需要库，不需要编译对自己无用的库：<br>
+假如productFlavors中有如下配置：</p>
+<pre><code>productFlavors {
+            appone {
+            }
+
+            apptwo {
+            }
+        }
+</code></pre>
+<p>可以在dependencies中按以下配置：</p>
+<pre><code>dependencies {
+    # ....
+    apponeCompile '*********'
+    apptwoCompile '*********'
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Cause: buildOutput.apkData must not be null问题总结]]></title>
         <id>https://elianworld.github.io/post/0z6buZbp_/</id>
@@ -1479,63 +1504,6 @@ android:label=&quot;${APP_NAME}&quot;
 <img src="https://elianworld.github.io//post-images/1607055163351.png" alt="" loading="lazy"><br>
 另外，在工程内直接运行时，需要根据不同的需求，在Build Variants中选择不同的构建类型，选完后会rebuild一遍工程，重新点击运行，运行到手机上的就是对应选择后的APP了。<br>
 <img src="https://elianworld.github.io//post-images/1607055328314.png" alt="" loading="lazy"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android Https服务端证书校验及防代理设置]]></title>
-        <id>https://elianworld.github.io/post/androidhttpsproxy/</id>
-        <link href="https://elianworld.github.io/post/androidhttpsproxy/">
-        </link>
-        <updated>2020-12-03T06:48:50.000Z</updated>
-        <content type="html"><![CDATA[<p>设置OKHttp不使用代理：<br>
-<code>okHttpClientBuilder.proxy(Proxy.NO_PROXY);</code><br>
-设置SSL证书校验<br>
-<code>okHttpClientBuilder.sslSocketFactory(createSSLSocketFactory(), new MyTrustManager());</code><br>
-createSSLSocketFactory实现：</p>
-<pre><code>private static SSLSocketFactory createSSLSocketFactory() {
-        SSLSocketFactory ssfFactory = null;
-
-        try {
-            SSLContext sc = SSLContext.getInstance(&quot;SSL&quot;);
-            sc.init(null, new TrustManager[]{new MyTrustManager()}, new SecureRandom());
-
-            ssfFactory = sc.getSocketFactory();
-        } catch (Exception e) {
-        }
-
-        return ssfFactory;
-    }
-</code></pre>
-<p>MyTrustManager实现X509TrustManager，重写checkServerTrusted即可：</p>
-<pre><code>    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-
-        //检查所有证书
-        try {
-            TrustManagerFactory factory = TrustManagerFactory.getInstance(&quot;X509&quot;);
-            factory.init((KeyStore) null);
-            for (TrustManager trustManager : factory.getTrustManagers()) {
-                ((X509TrustManager) trustManager).checkServerTrusted(chain, authType);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        }
-
-        //获取网络中的证书信息
-        X509Certificate certificate = chain[0];
-        // 证书拥有者
-        String subject = certificate.getSubjectDN().getName();
-        // 证书颁发者
-        String issuer = certificate.getIssuerDN().getName();
-
-         if (!ConstantManager.SUBJECT.equals(subject) || !ConstantManager.ISSUER.equals(issuer)){
-            throw new CertificateException();
-        }
-    }
-</code></pre>
-<p>具体实现需进行代码保护，并在此基础上加上应用程序的签名校验，防止去除证书校验后二次打包。</p>
 ]]></content>
     </entry>
 </feed>
