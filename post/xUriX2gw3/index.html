@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Android aapt2——gradle插件3.0之后的资源构建工具 | Rain</title>
+<meta name="description" content="隔壁超市薯片半价">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://elianworld.github.io//favicon.ico?v=1623895133705">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://elianworld.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://elianworld.github.io/">
+        <img class="avatar" src="https://elianworld.github.io//images/avatar.png?v=1623895133705" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://elianworld.github.io/">
+        <h1 class="site-title">Rain</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://elianworld.github.io/post/aboutme" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Android aapt2——gradle插件3.0之后的资源构建工具</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2021-06-17</span>
+            
+          </div>
+          <div class="post-content">
+            <p>aapt2是Android资源的打包工具，编译成包的过程中，可以看到aapt2起作用的阶段，详情见Android打包流程。<br>
+Android Gradle 插件 3.0.0 及更高版本默认情况下会启用 AAPT2，可以在gradle.properties使用</p>
+<pre><code>android.enableAapt2=false
+</code></pre>
+<p>来关闭aapt2，使用旧版本的aapt来打包资源。<br>
+很多人在升级到新版本之后，为了解决编译期间出现的问题，都选用上述方式禁用aapt2，那aapt2和aapt对资源的打包有什么区别呢。</p>
+<h4 id="注以下内容来自android官方文档">注：以下内容来自Android官方文档：</h4>
+<hr>
+<h5 id="1-android-清单文件中的元素层次结构">1、Android 清单文件中的元素层次结构</h5>
+<p>在以前的 AAPT 版本中，嵌套在 Android 清单中的错误节点上的元素会被忽略或引发警告。例如，请参考以下示例：</p>
+<pre><code>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+   package=&quot;com.example.myname.myapplication&quot;&gt;
+   &lt;application
+       ...
+       &lt;activity android:name=&quot;.MainActivity&quot;&gt;
+           &lt;intent-filter&gt;
+               &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+               &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+           &lt;/intent-filter&gt;
+           &lt;action android:name=&quot;android.intent.action.CUSTOM&quot; /&gt;
+       &lt;/activity&gt;
+   &lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre>
+<p>以前的 AAPT 版本直接忽略错误放置的 <action> 标记。但从 AAPT2 开始，会出现以下错误：</p>
+<pre><code>AndroidManifest.xml:15: error: unknown element &lt;action&gt; found.
+</code></pre>
+<p>如需解决该问题，请确保您的清单元素正确嵌套。如需了解详情，请参阅<a href="https://developer.android.com/guide/topics/manifest/manifest-intro#filestruct">清单文件结构</a>。</p>
+<h5 id="2-资源声明">2、资源声明</h5>
+<p>无法再从 name 属性中指明资源类型。例如，以下示例未按正确方式声明 attr 资源项目：</p>
+<pre><code>&lt;style name=&quot;foo&quot; parent=&quot;bar&quot;&gt;
+    &lt;item name=&quot;attr/my_attr&quot;&gt;@color/pink&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+<p>采用这种方式声明资源类型会导致以下构建错误：</p>
+<pre><code>Error: style attribute 'attr/attr/my_attr (aka my.package:attr/attr/my_attr)'
+not found.
+</code></pre>
+<p>如需解决此错误，请使用 type=&quot;attr&quot; 明确声明资源类型：</p>
+<pre><code>&lt;style name=&quot;foo&quot; parent=&quot;bar&quot;&gt;
+  &lt;item type=&quot;attr&quot; name=&quot;my_attr&quot;&gt;@color/pink&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+<p>此外，在声明 style 元素时，其父项也必须为样式资源类型。否则，您将会遇到类似于以下内容的错误：</p>
+<pre><code>Error: (...) invalid resource type 'attr' for parent of style
+</code></pre>
+<h5 id="3-库配置不正确">3、库配置不正确</h5>
+<p>如果您的应用依赖于使用旧版 Android SDK Build Tools 构建的第三方库，您的应用可能会在运行时崩溃，且不会显示任何错误或警告。之所以会发生此崩溃，可能是因为在创建库的过程中，将 R.java 字段声明为 final，从而导致所有资源 ID 都被内嵌在该库的类中。</p>
+<p>AAPT2 依赖于在构建应用时能够将 ID 重新分配给库资源。如果该库将这些 ID 视为 final 并将其内嵌在库 dex 中，便会出现运行时不匹配的情况。</p>
+<p>如需解决此错误，请与库创建者联系，以使用最新版本的 Android SDK Build Tools 重新构建该库，然后重新发布该库。</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://elianworld.github.io/post/yYgvyddZt/">
+              <h3 class="post-title">
+                下一篇：一套代码打不通APK——dependencies依赖相关
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">隔壁超市薯片半价</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/ElianWorld" target="_blank">Rain</a> | <a class="rss" href="https://elianworld.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

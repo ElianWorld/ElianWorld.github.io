@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://elianworld.github.io/</id>
     <title>Rain</title>
-    <updated>2021-06-17T01:57:36.166Z</updated>
+    <updated>2021-06-17T01:58:59.697Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://elianworld.github.io/"/>
     <link rel="self" href="https://elianworld.github.io/atom.xml"/>
@@ -10,6 +10,64 @@
     <logo>https://elianworld.github.io/images/avatar.png</logo>
     <icon>https://elianworld.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Rain</rights>
+    <entry>
+        <title type="html"><![CDATA[Android aapt2——gradle插件3.0之后的资源构建工具]]></title>
+        <id>https://elianworld.github.io/post/xUriX2gw3/</id>
+        <link href="https://elianworld.github.io/post/xUriX2gw3/">
+        </link>
+        <updated>2021-06-17T01:42:06.000Z</updated>
+        <content type="html"><![CDATA[<p>aapt2是Android资源的打包工具，编译成包的过程中，可以看到aapt2起作用的阶段，详情见Android打包流程。<br>
+Android Gradle 插件 3.0.0 及更高版本默认情况下会启用 AAPT2，可以在gradle.properties使用</p>
+<pre><code>android.enableAapt2=false
+</code></pre>
+<p>来关闭aapt2，使用旧版本的aapt来打包资源。<br>
+很多人在升级到新版本之后，为了解决编译期间出现的问题，都选用上述方式禁用aapt2，那aapt2和aapt对资源的打包有什么区别呢。</p>
+<h4 id="注以下内容来自android官方文档">注：以下内容来自Android官方文档：</h4>
+<hr>
+<h5 id="1-android-清单文件中的元素层次结构">1、Android 清单文件中的元素层次结构</h5>
+<p>在以前的 AAPT 版本中，嵌套在 Android 清单中的错误节点上的元素会被忽略或引发警告。例如，请参考以下示例：</p>
+<pre><code>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+   package=&quot;com.example.myname.myapplication&quot;&gt;
+   &lt;application
+       ...
+       &lt;activity android:name=&quot;.MainActivity&quot;&gt;
+           &lt;intent-filter&gt;
+               &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+               &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+           &lt;/intent-filter&gt;
+           &lt;action android:name=&quot;android.intent.action.CUSTOM&quot; /&gt;
+       &lt;/activity&gt;
+   &lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre>
+<p>以前的 AAPT 版本直接忽略错误放置的 <action> 标记。但从 AAPT2 开始，会出现以下错误：</p>
+<pre><code>AndroidManifest.xml:15: error: unknown element &lt;action&gt; found.
+</code></pre>
+<p>如需解决该问题，请确保您的清单元素正确嵌套。如需了解详情，请参阅<a href="https://developer.android.com/guide/topics/manifest/manifest-intro#filestruct">清单文件结构</a>。</p>
+<h5 id="2-资源声明">2、资源声明</h5>
+<p>无法再从 name 属性中指明资源类型。例如，以下示例未按正确方式声明 attr 资源项目：</p>
+<pre><code>&lt;style name=&quot;foo&quot; parent=&quot;bar&quot;&gt;
+    &lt;item name=&quot;attr/my_attr&quot;&gt;@color/pink&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+<p>采用这种方式声明资源类型会导致以下构建错误：</p>
+<pre><code>Error: style attribute 'attr/attr/my_attr (aka my.package:attr/attr/my_attr)'
+not found.
+</code></pre>
+<p>如需解决此错误，请使用 type=&quot;attr&quot; 明确声明资源类型：</p>
+<pre><code>&lt;style name=&quot;foo&quot; parent=&quot;bar&quot;&gt;
+  &lt;item type=&quot;attr&quot; name=&quot;my_attr&quot;&gt;@color/pink&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+<p>此外，在声明 style 元素时，其父项也必须为样式资源类型。否则，您将会遇到类似于以下内容的错误：</p>
+<pre><code>Error: (...) invalid resource type 'attr' for parent of style
+</code></pre>
+<h5 id="3-库配置不正确">3、库配置不正确</h5>
+<p>如果您的应用依赖于使用旧版 Android SDK Build Tools 构建的第三方库，您的应用可能会在运行时崩溃，且不会显示任何错误或警告。之所以会发生此崩溃，可能是因为在创建库的过程中，将 R.java 字段声明为 final，从而导致所有资源 ID 都被内嵌在该库的类中。</p>
+<p>AAPT2 依赖于在构建应用时能够将 ID 重新分配给库资源。如果该库将这些 ID 视为 final 并将其内嵌在库 dex 中，便会出现运行时不匹配的情况。</p>
+<p>如需解决此错误，请与库创建者联系，以使用最新版本的 Android SDK Build Tools 重新构建该库，然后重新发布该库。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[一套代码打不通APK——dependencies依赖相关]]></title>
         <id>https://elianworld.github.io/post/yYgvyddZt/</id>
@@ -1447,63 +1505,5 @@ Agent</h1>
 <tr><td>iphone手机OS 9_3_2版本 4G</td><td class="copy-agent-con">Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13F69 MicroMessenger/6.6.1 NetType/4G Language/zh_CN</td></tr><tr><td>iphone手机OS 11_2_2版本 4G</td><td class="copy-agent-con">Mozilla/5.0 (iPhone; CPU iPhone OS 11_2_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Mobile/15C202 MicroMessenger/6.6.1 NetType/4G Language/zh_CN</td></tr><tr><td>iphone手机OS OS 11_1_1版本 WIFI</td><td class="copy-agent-con">Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Mobile/15B150 MicroMessenger/6.6.1 NetType/WIFI Language/zh_CN</td></tr><tr><td>iphoneX WIFI</td><td class="copy-agent-con">Mozilla/5.0 (iphone x Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043632 Safari/537.36 MicroMessenger/6.6.1.1220(0x26060135) NetType/WIFI Language/zh_CN</td></tr></tbody>
 </table>
 </div>]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android 一套代码打出多个APP安装包]]></title>
-        <id>https://elianworld.github.io/post/androidproductflavors/</id>
-        <link href="https://elianworld.github.io/post/androidproductflavors/">
-        </link>
-        <updated>2020-12-04T03:37:34.000Z</updated>
-        <content type="html"><![CDATA[<p>代码结构大致相同的APP，如何维护一套代码，打出不同的APP：</p>
-<p>这在Android官方叫做<a href="https://developer.android.com/studio/build/build-variants?utm_source=android-studio#product-flavors">产品变种</a></p>
-<p>具体配置应用如下：<br>
-在主工程build.gradle文件的android下，增加以下配置：</p>
-<pre><code>productFlavors {
-        APPONE {
-            applicationId &quot;com.test.appone&quot;
-            signingConfig signingConfigs.config_one
-            //代码中所需根据不同应用配置的不同参数
-            buildConfigField &quot;String&quot;, &quot;AppName&quot;, &quot;\&quot;appone\&quot;&quot;
-            //Manifest文件中所需根据不同应用配置的不同参数
-            manifestPlaceholders = [
-                    APP_NAME: &quot;appone&quot;,
-                    APP_ICON: &quot;@mipmap/ic_launcher&quot;
-            ]
-
-        }
-
-        APPTWO {
-            applicationId &quot;com.test.apptwo&quot;
-            signingConfig signingConfigs.config_two
-            //代码中所需根据不同应用配置的不同参数
-            buildConfigField &quot;String&quot;, &quot;AppName&quot;, &quot;\&quot;apptwo\&quot;&quot;
-            //Manifest文件中所需根据不同应用配置的不同参数
-            manifestPlaceholders = [
-                    APP_NAME: &quot;apptwo&quot;,
-                    APP_ICON: &quot;@mipmap/ic_launcher2&quot;
-            ]
-
-        }
-</code></pre>
-<p>productFlavors就是针对不同的APP变种，配置的不同的信息。</p>
-<hr>
-<p>buildConfigField字段配置的内容最终会编译到BuildConfig文件中：<br>
-<img src="https://elianworld.github.io//post-images/1607054593718.png" alt="" loading="lazy"><br>
-代码中引用方式如下：<br>
-<code>BuildConfig.AppName</code><br>
-如果没引到刚添加的buildConfigField，rebuild一下工程即可。</p>
-<hr>
-<p>manifestPlaceholders字段配置的是在Manifest文件中引用的配置:</p>
-<pre><code>android:icon=&quot;${APP_ICON}&quot;
-android:label=&quot;${APP_NAME}&quot;
-</code></pre>
-<p>特别的，可以再&quot;&quot;中进行字符串拼接，如下所示：</p>
-<pre><code>android:authorities=&quot;${package_name}.provider&quot;
-</code></pre>
-<p>配置完成后，打包的时候就可以看到四个选项了：<br>
-<img src="https://elianworld.github.io//post-images/1607055163351.png" alt="" loading="lazy"><br>
-另外，在工程内直接运行时，需要根据不同的需求，在Build Variants中选择不同的构建类型，选完后会rebuild一遍工程，重新点击运行，运行到手机上的就是对应选择后的APP了。<br>
-<img src="https://elianworld.github.io//post-images/1607055328314.png" alt="" loading="lazy"></p>
-]]></content>
     </entry>
 </feed>
